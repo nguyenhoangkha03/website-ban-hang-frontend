@@ -1,4 +1,4 @@
-import Header from '@/src/components/Header';
+import Header from '@/src/components/layout/Header';
 import LoginForm from '@/src/components/auth/LoginForm';
 
 export default function LoginPage() {

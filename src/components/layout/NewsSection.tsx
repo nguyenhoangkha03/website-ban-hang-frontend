@@ -1,6 +1,6 @@
 import React from 'react';
 import { Newspaper, ArrowRight, Calendar } from 'lucide-react';
-import { news } from '../lib/mockData';
+import { news } from '../../lib/mockData';
 import Container from './Container';
 
 export default function NewsSection() {

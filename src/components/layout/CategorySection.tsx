@@ -1,5 +1,5 @@
 import React from 'react';
-import { categories } from '../lib/mockData';
+import { categories } from '../../lib/mockData';
 import Container from './Container';
 
 export default function CategorySection() {

@@ -1,12 +1,12 @@
 'use client'; // Thêm dòng này nếu có tương tác (click, scroll)
 import Image from "next/image";
-import Header from '@/src/components/Header';
-import Hero from '@/src/components/Hero';
-import CategorySection from '@/src/components/CategorySection';
-import ProductSection from '@/src/components/ProductSection';
-import AboutSection from '@/src/components/AboutSection';
-import NewsSection from '@/src/components/NewsSection';
-import Footer from '@/src/components/Footer';
+import Header from '@/src/components/layout/Header';
+import Hero from '@/src/components/layout/Hero';
+import CategorySection from '@/src/components/layout/CategorySection';
+import ProductSection from '@/src/components/layout/ProductSection';
+import AboutSection from '@/src/components/layout/AboutSection';
+import NewsSection from '@/src/components/layout/NewsSection';
+import Footer from '@/src/components/layout/Footer';
 
 import { durianProducts, riceProducts, otherProducts } from '@/src/lib/mockData';
 import { Flower, Wheat, Sprout } from 'lucide-react';

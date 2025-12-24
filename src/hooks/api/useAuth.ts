@@ -119,3 +119,21 @@ export const useSyncSocialAccount = () => {
     }
   });
 };
+
+export const useSetPassword = () => {
+  const router = useRouter();
+  
+  return useMutation({
+    mutationFn: async (payload: { phone: string; uid: string; password: string }) => {
+       // Gọi API: POST /accounts/set-password
+       const res = await http.post('/accounts/set-password', payload);
+       return res.data;
+    },
+    onSuccess: (data) => {
+       if (data.success) {
+          alert('✅ Đổi mật khẩu thành công! Vui lòng đăng nhập lại.');
+          router.push('/login');
+       }
+    }
+  });
+};

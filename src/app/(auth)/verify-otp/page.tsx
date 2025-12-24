@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import Header from '@/src/components/Header';
+import Header from '@/src/components/layout/Header';
 import OtpForm from '@/src/components/auth/OtpForm';
 
 // Cần bọc trong Suspense vì OtpForm có dùng useSearchParams

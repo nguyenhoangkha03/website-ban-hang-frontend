@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react'; // Cần thiết nếu component con dùng useSearchParams
-import Header from '@/src/components/Header';
+import Header from '@/src/components/layout/Header';
 import ResetPasswordForm from '@/src/components/auth/ResetPasswordForm';
 
 export default function ResetPasswordPage() {
