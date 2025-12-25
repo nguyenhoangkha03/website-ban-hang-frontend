@@ -120,8 +120,8 @@ export const otherProducts: Product[] = [
 ];
 
 export const navLinks = [
-  { name: "Trang chủ", href: "#", active: true },
-  { name: "Giới thiệu", href: "#" },
+  { name: "Trang chủ", href: "/", active: true },
+  { name: "Giới thiệu", href: "/about" },
   { name: "Sản phẩm", href: "#" },
   { name: "Tin tức", href: "#" },
   { name: "Liên hệ", href: "#" },
