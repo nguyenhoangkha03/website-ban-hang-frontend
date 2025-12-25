@@ -13,8 +13,11 @@ import { RegisterSchema, RegisterFormType } from '@/src/lib/validations/auth';
 import { useCheckPhone, useSendOtp, useVerifyAndRegister, useSocialLogin } from '@/src/hooks/api/useAuth';
 import OtpForm from './OtpForm';
 
+interface RegisterFormProps {
+  onSwitchToLogin?: () => void;
+}
 
-export default function RegisterForm() {
+export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
   const router = useRouter();
   const [step, setStep] = useState<'INPUT' | 'OTP'>('INPUT');
   const [showExistModal, setShowExistModal] = useState(false);
@@ -95,7 +98,7 @@ export default function RegisterForm() {
   if (step === 'INPUT') {
     return (
       <>
-        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
           <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Đăng Ký Tài Khoản</h2>
 
           <form onSubmit={handleSubmit(onCheckInfo)} className="space-y-4">
@@ -118,7 +121,7 @@ export default function RegisterForm() {
                 type="password"
                 {...register('password')}
                 className={`w-full px-4 py-3 rounded-lg border outline-none mt-1 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:ring-2 focus:ring-green-500'}`}
-                placeholder="••••••"
+                placeholder="••••••••••••"
               />
               {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
             </div>
@@ -130,7 +133,7 @@ export default function RegisterForm() {
                 type="password"
                 {...register('confirmPassword')}
                 className={`w-full px-4 py-3 rounded-lg border outline-none mt-1 ${errors.confirmPassword ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:ring-2 focus:ring-green-500'}`}
-                placeholder="••••••"
+                placeholder="••••••••••••"
               />
               {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
             </div>
@@ -161,7 +164,7 @@ export default function RegisterForm() {
               <button
                 type="button"
                 onClick={() => handleSocialClick('google')} // <--- GẮN SỰ KIỆN
-                className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
+                className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-red-50 transition-all"
               >
                 <GoogleLogo /> <span className="text-sm font-semibold text-gray-700">Google</span>
               </button>
@@ -169,15 +172,15 @@ export default function RegisterForm() {
               <button
                 type="button"
                 onClick={() => handleSocialClick('facebook')} // <--- GẮN SỰ KIỆN
-                className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-blue-50 transition-all"
+                className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-blue-100 transition-all"
               >
                 <FacebookLogo /> <span className="text-sm font-semibold text-gray-700">Facebook</span>
               </button>
             </div>
           </div>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
-            Đã có tài khoản? <Link href="/login" className="text-green-600 font-bold hover:underline">Đăng nhập ngay</Link>
+          <div className="mt-6 text-center text-sm text-gray-500 lg:hidden">
+            Đã có tài khoản? <button onClick={onSwitchToLogin} className="text-green-600 font-bold hover:underline">Đăng nhập ngay</button>
           </div>
         </div>
 
@@ -208,6 +211,7 @@ export default function RegisterForm() {
       phone={registerData?.phone || ''}
       onVerifySuccess={onVerifySuccess}
       isLoading={verifyRegisterMutation.isPending} // Loading thật
+      onGoBack={() => setStep('INPUT')}
     />
   );
 }

@@ -10,7 +10,11 @@ import { GoogleLogo, FacebookLogo } from '@/src/icons/SocialIcons';
 import { LoginSchema, LoginFormType } from '@/src/lib/validations/auth';
 import { useLogin, useSocialLogin } from '@/src/hooks/api/useAuth';
 
-export default function LoginForm() {
+interface LoginFormProps {
+  onSwitchToRegister?: () => void;
+}
+
+export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
   // 1. Setup React Hook Form + Zod Resolver
   const {
     register,
@@ -42,15 +46,13 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in zoom-in duration-300">
+    <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in zoom-in duration-500 delay-100">
 
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-          <span className="text-2xl">🍃</span>
-        </div>
+      
         <h2 className="text-2xl font-bold text-gray-800">Đăng Nhập</h2>
-        <p className="text-gray-500 text-sm mt-1">Nông sản sạch cho mọi nhà</p>
+       
       </div>
 
       {/* Form */}
@@ -72,16 +74,19 @@ export default function LoginForm() {
         <div>
           <div className="flex justify-between">
             <label className="text-sm font-medium text-gray-700">Mật khẩu</label>
-            <Link href="/forgot-password" className="text-xs text-green-600 hover:underline">Quên mật khẩu?</Link>
+            
           </div>
           <input
             type="password"
             {...register('password')}
             className={`w-full px-4 py-3 rounded-lg border outline-none mt-1 transition-all ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:ring-2 focus:ring-green-500'
               }`}
-            placeholder="••••••"
+            placeholder="••••••••••••"
           />
           {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+          <div className="flex justify-end">
+              <Link href="/forgot-password" className="text-xs text-green-600 hover:underline">Quên mật khẩu?</Link>
+          </div>
         </div>
 
         {/* Hiển thị lỗi từ API (nếu có) */}
@@ -114,7 +119,7 @@ export default function LoginForm() {
           <button
             type="button"
             onClick={() => handleSocialClick('google')} // <--- GẮN SỰ KIỆN
-            className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
+            className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-red-50 transition-all"
           >
             <GoogleLogo /> <span className="text-sm font-semibold text-gray-700">Google</span>
           </button>
@@ -122,16 +127,16 @@ export default function LoginForm() {
           <button
             type="button"
             onClick={() => handleSocialClick('facebook')} // <--- GẮN SỰ KIỆN
-            className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-blue-50 transition-all"
+            className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-blue-100 transition-all"
           >
             <FacebookLogo /> <span className="text-sm font-semibold text-gray-700">Facebook</span>
           </button>
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="mt-6 text-center text-sm text-gray-500">
-        Chưa có tài khoản? <Link href="/register" className="text-green-600 font-bold hover:underline">Đăng ký ngay</Link>
+      {/* Footer - Only show on mobile */}
+      <div className="mt-6 text-center text-sm text-gray-500 lg:hidden">
+        Chưa có tài khoản? <button onClick={onSwitchToRegister} className="text-green-600 font-bold hover:underline">Đăng ký ngay</button>
       </div>
     </div>
   );
