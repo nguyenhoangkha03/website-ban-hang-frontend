@@ -98,7 +98,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
   if (step === 'INPUT') {
     return (
       <>
-        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+        <div className="w-full max-w-md p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
           <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Đăng Ký Tài Khoản</h2>
 
           <form onSubmit={handleSubmit(onCheckInfo)} className="space-y-4">
@@ -108,7 +108,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
               <label className="text-sm font-medium text-gray-700">Số điện thoại</label>
               <input
                 {...register('phone')}
-                className={`w-full px-4 py-3 rounded-lg border outline-none mt-1 ${errors.phone ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:ring-2 focus:ring-green-500'}`}
+                className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 ${errors.phone ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'}`}
                 placeholder="09xxxxxxxx"
               />
               {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
@@ -120,7 +120,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
               <input
                 type="password"
                 {...register('password')}
-                className={`w-full px-4 py-3 rounded-lg border outline-none mt-1 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:ring-2 focus:ring-green-500'}`}
+                className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'}`}
                 placeholder="••••••••••••"
               />
               {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
@@ -132,7 +132,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
               <input
                 type="password"
                 {...register('confirmPassword')}
-                className={`w-full px-4 py-3 rounded-lg border outline-none mt-1 ${errors.confirmPassword ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:ring-2 focus:ring-green-500'}`}
+                className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 ${errors.confirmPassword ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'}`}
                 placeholder="••••••••••••"
               />
               {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
@@ -148,7 +148,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
             <button
               disabled={checkPhoneMutation.isPending}
               type="submit"
-              className="w-full bg-[#009f4d] hover:bg-green-700 text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2 disabled:opacity-70 transition-all"
+              className="w-full bg-[#009f4d] hover:bg-green-700 text-white font-bold py-3 rounded-lg border-2 border-[#009f4d] flex justify-center items-center gap-2 disabled:opacity-70 transition-all"
             >
               {checkPhoneMutation.isPending ? <Loader2 className="animate-spin" /> : 'Tiếp tục'}
             </button>
@@ -164,7 +164,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
               <button
                 type="button"
                 onClick={() => handleSocialClick('google')} // <--- GẮN SỰ KIỆN
-                className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-red-50 transition-all"
+                className="flex items-center justify-center gap-3 px-4 py-2.5 border-2 border-gray-400 rounded-lg hover:bg-red-50 transition-all"
               >
                 <GoogleLogo /> <span className="text-sm font-semibold text-gray-700">Google</span>
               </button>
@@ -172,7 +172,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
               <button
                 type="button"
                 onClick={() => handleSocialClick('facebook')} // <--- GẮN SỰ KIỆN
-                className="flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-200 rounded-lg hover:bg-blue-100 transition-all"
+                className="flex items-center justify-center gap-3 px-4 py-2.5 border-2 border-gray-400 rounded-lg hover:bg-blue-100 transition-all"
               >
                 <FacebookLogo /> <span className="text-sm font-semibold text-gray-700">Facebook</span>
               </button>
