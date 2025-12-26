@@ -67,7 +67,7 @@ export default function ResetPasswordForm() {
 
   // --- GIAO DIỆN FORM ĐẶT LẠI MẬT KHẨU ---
   return (
-    <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in zoom-in duration-300">
+    <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in zoom-in duration-500 delay-100">
       <div className="text-center mb-8">
         <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <KeyRound className="text-orange-600 w-6 h-6" />

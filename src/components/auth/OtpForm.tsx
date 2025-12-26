@@ -9,9 +9,10 @@ interface OtpFormProps {
   type?: 'register' | 'forgot_password';
   onVerifySuccess?: (otp: string) => void; // Callback khi xác thực thành công
   isLoading?: boolean; // Trạng thái loading từ bên ngoài truyền vào
+  onGoBack?: () => void; // Callback quay lại
 }
 
-export default function OtpForm({ phone = '09xxxxxxxx', type, onVerifySuccess, isLoading = false }: OtpFormProps) {
+export default function OtpForm({ phone = '09xxxxxxxx', type, onVerifySuccess, isLoading = false, onGoBack }: OtpFormProps) {
   const router = useRouter();
   const [otp, setOtp] = useState<string[]>(new Array(6).fill('')); // Mảng 6 ký tự rỗng
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -90,7 +91,7 @@ export default function OtpForm({ phone = '09xxxxxxxx', type, onVerifySuccess, i
   const loadingState = isLoading || internalLoading;
 
   return (
-    <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center animate-in fade-in zoom-in duration-300">
+    <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center animate-in fade-in zoom-in duration-500 delay-100">
       
       {/* Icon Khiên xanh */}
       <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -134,7 +135,7 @@ export default function OtpForm({ phone = '09xxxxxxxx', type, onVerifySuccess, i
       {/* Nút Quay lại */}
       <div className="mt-6">
         <button 
-          onClick={() => router.push('/login')} 
+          onClick={onGoBack || (() => window.history.back())} 
           className="flex items-center justify-center gap-2 mx-auto text-blue-600 text-sm font-medium hover:underline"
         >
           <ArrowLeft size={16} />
