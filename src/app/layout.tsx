@@ -4,7 +4,10 @@ import "./globals.css";
 import QueryProvider from '@/src/providers/QueryProvider';
 import SocialAuthListener from '@/src/components/auth/SocialAuthListener';
 
-// 1. Cấu hình Font (Giữ nguyên như bạn làm là chuẩn)
+// 👇 1. IMPORT HEADER VÀ FOOTER VÀO ĐÂY
+import Header from '@/src/components/layout/Header';
+import Footer from '@/src/components/layout/Footer';
+
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 const montserrat = Montserrat({ 
   subsets: ["latin"], 
@@ -20,18 +23,21 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi">
-      {/* 2. SỬA LẠI BODY: 
-         - Kết hợp cả inter.variable và montserrat.variable để dùng được trong Tailwind
-         - Thêm class nền bg-gray-50 để web không bị trắng toát đau mắt
-      */}
       <body className={`${inter.variable} ${montserrat.variable} font-sans bg-gray-50 text-gray-900`}>
         
         <QueryProvider> 
-          {/* 👇 Đặt Listener ở đây để nó luôn chạy ngầm */}
           <SocialAuthListener />
           
-          {/* ... Header, Children ... */}
-          {children}
+          {/* 👇 2. ĐẶT HEADER Ở ĐÂY (Nó sẽ hiện trên mọi trang) */}
+          <Header />
+
+          {/* Đây là nơi nội dung các trang (Home, About, Login...) được thay thế vào */}
+          <main className="min-h-screen">
+             {children}
+          </main>
+          
+          {/* 👇 3. ĐẶT FOOTER Ở ĐÂY */}
+          <Footer />
           
         </QueryProvider>
       </body>

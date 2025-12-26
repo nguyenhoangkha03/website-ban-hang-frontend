@@ -1,12 +1,11 @@
-'use client'; // Thêm dòng này nếu có tương tác (click, scroll)
-import Image from "next/image";
-import Header from '@/src/components/Header';
-import Hero from '@/src/components/Hero';
-import CategorySection from '@/src/components/CategorySection';
-import ProductSection from '@/src/components/ProductSection';
-import AboutSection from '@/src/components/AboutSection';
-import NewsSection from '@/src/components/NewsSection';
-import Footer from '@/src/components/Footer';
+'use client'; 
+// import Header ... -> XÓA
+import Hero from '@/src/components/layout/Hero';
+import CategorySection from '@/src/components/layout/CategorySection';
+import ProductSection from '@/src/components/layout/ProductSection';
+import AboutSection from '@/src/components/layout/AboutSection';
+import NewsSection from '@/src/components/layout/NewsSection';
+// import Footer ... -> XÓA
 
 import { durianProducts, riceProducts, otherProducts } from '@/src/lib/mockData';
 import { Flower, Wheat, Sprout } from 'lucide-react';
@@ -28,8 +27,9 @@ const PartnersSection = () => (
 
 export default function Home() {
   return (
-     <main className="min-h-screen selection:bg-primary selection:text-white">
-      <Header />
+     // 👇 Không cần thẻ <main> bao quanh nữa vì layout đã có rồi, hoặc giữ lại div cũng được
+     <div className="selection:bg-primary selection:text-white">
+      
       <Hero />
       <CategorySection />
       
@@ -57,7 +57,9 @@ export default function Home() {
       <AboutSection />
       <PartnersSection />
       <NewsSection />
-      <Footer />
-    </main>
+      
+      {/* ❌ ĐÃ XÓA <Footer /> VÌ LAYOUT ĐÃ CÓ */}
+
+    </div>
   );
 }

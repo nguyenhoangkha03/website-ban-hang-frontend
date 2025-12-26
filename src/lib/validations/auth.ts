@@ -24,19 +24,31 @@ export const RegisterSchema = z.object({
 });
 
 // Schema Quên mật khẩu
-export const ForgotPasswordSchema = z.object({
-  phone: z.string().regex(phoneRegex, 'Số điện thoại không hợp lệ'),
+export const ForgotPasswordPhoneSchema = z.object({
+  phone: z.string()
+    .min(1, 'Vui lòng nhập số điện thoại')
+    .regex(/(84|0[3|5|7|8|9])+([0-9]{8})\b/, 'Số điện thoại không hợp lệ'),
 });
 
-// Schema Đặt lại mật khẩu
-export const ResetPasswordSchema = z.object({
+// // Schema Đặt lại mật khẩu
+// export const ResetPasswordSchema = z.object({
+//   password: z.string().min(6, 'Mật khẩu tối thiểu 6 ký tự'),
+//   confirmPassword: z.string(),
+// }).refine((data) => data.password === data.confirmPassword, {
+//   message: "Mật khẩu không khớp",
+//   path: ["confirmPassword"],
+// });
+
+export const NewPasswordSchema = z.object({
   password: z.string().min(6, 'Mật khẩu tối thiểu 6 ký tự'),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Mật khẩu không khớp",
+  message: "Mật khẩu xác nhận không khớp",
   path: ["confirmPassword"],
 });
 
 // Type inference (Tự động tạo type TS từ schema Zod)
 export type LoginFormType = z.infer<typeof LoginSchema>;
 export type RegisterFormType = z.infer<typeof RegisterSchema>;
+export type ForgotPasswordPhoneType = z.infer<typeof ForgotPasswordPhoneSchema>;
+export type NewPasswordType = z.infer<typeof NewPasswordSchema>;

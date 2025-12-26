@@ -1,45 +1,91 @@
 'use client';
 
-import { useEffect } from 'react';
-import { supabase } from '@/src/lib/supabase/supabase'; // Import client supabase
-import { useSyncSocialAccount } from '@/src/hooks/api/useAuth';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation'; // 👈 1. Thêm import này để sửa lỗi 'router'
+import { useMutation } from '@tanstack/react-query';
+import { supabase } from '@/src/lib/supabase/supabase';
 import { useAuthStore } from '@/src/stores/useAuthStore';
+import { http } from '@/src/lib/http';
+import VerifyPhoneModal from './VerifyPhoneModal';
 
 export default function SocialAuthListener() {
-  const syncSocialMutation = useSyncSocialAccount();
-  const { isAuthenticated } = useAuthStore();
+  // 👇 2. Khai báo router
+  const router = useRouter(); 
+
+  // 👇 3. Lấy thêm hàm 'login' từ Store để sửa lỗi 'login'
+  const { isAuthenticated, login } = useAuthStore(); 
+
+  // State quản lý Modal
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [currentPhone, setCurrentPhone] = useState('');
+
+  // Mutation gọi API đồng bộ
+  const syncMutation = useMutation({
+    mutationFn: async (payload: any) => {
+       // Gọi API Backend: POST /accounts/social-login
+       const res = await http.post('/accounts/social-login', payload);
+       return res.data; 
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        // Lưu Token vào Store & LocalStorage
+        login(data.data.customer, data.data.tokens.accessToken, data.data.tokens.refreshToken);
+        
+        // KIỂM TRA CỜ TỪ BACKEND: Có cần verify SĐT không?
+        if (data.data.requirePhoneCheck) {
+            setCurrentPhone(data.data.customer.phone);
+            setShowVerifyModal(true); // Hiện Modal xác thực
+        } else {
+            router.push('/'); // Chuyển về trang chủ
+        }
+      }
+    },
+    onError: (error) => {
+        console.error("Lỗi đồng bộ Social:", error);
+    }
+  });
 
   useEffect(() => {
-    // Lắng nghe sự kiện thay đổi trạng thái Auth của Supabase
+    // Lắng nghe sự kiện từ Supabase
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       
-      // Chỉ xử lý khi SIGNED_IN và chưa đăng nhập vào hệ thống Backend của mình
+      // Chỉ xử lý khi SIGNED_IN (Đã đăng nhập GG/FB thành công) và App mình chưa đăng nhập
       if (event === 'SIGNED_IN' && session && !isAuthenticated) {
         
         const user = session.user;
-        const provider = user.app_metadata.provider; // 'google' hoặc 'facebook'
+        const provider = user.app_metadata.provider; 
 
-        // Kiểm tra xem có phải login bằng social không
         if (provider === 'google' || provider === 'facebook') {
-            console.log("Detect Social Login, Syncing with Backend...", user);
+            console.log("Detect Social Login...", user);
             
-            // Lấy thông tin cần thiết
             const payload = {
                 uid: user.id,
                 email: user.email || '',
                 name: user.user_metadata.full_name || user.user_metadata.name || 'User',
                 avatar: user.user_metadata.avatar_url || '',
-                provider: provider.toUpperCase() as 'GOOGLE' | 'FACEBOOK'
+                provider: provider.toUpperCase() // 'GOOGLE' | 'FACEBOOK'
             };
 
-            // Gọi API Backend để đồng bộ và lấy Token thật
-            syncSocialMutation.mutate(payload);
+            // Gọi API Backend
+            syncMutation.mutate(payload);
         }
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [isAuthenticated]); // Dependency: Nếu đã login rồi thì không chạy nữa
+  }, [isAuthenticated]); 
 
-  return null; // Component này không render gì cả
+  return (
+      <>
+        {/* Render Modal */}
+        <VerifyPhoneModal 
+            isOpen={showVerifyModal} 
+            phone={currentPhone}
+            onClose={() => {
+                setShowVerifyModal(false);
+                router.push('/'); 
+            }}
+        />
+      </>
+  );
 }

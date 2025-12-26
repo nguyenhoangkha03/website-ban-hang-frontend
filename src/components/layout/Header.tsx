@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Phone, User, ShoppingCart, Menu, Sun, LogOut, ChevronDown } from 'lucide-react';
-import { navLinks } from '../../src/lib/mockData';
+import { navLinks } from '../../../src/lib/mockData';
 import Container from './Container';
 
 // 👇 1. Import Store và Hooks
