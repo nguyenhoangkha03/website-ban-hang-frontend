@@ -40,13 +40,13 @@ export default function AuthLayout({ initialMode = 'login' }: AuthLayoutProps) {
 
   return (
     <div className={`min-h-screen bg-white flex items-center justify-center overflow-hidden ${isInitialLoad ? 'page-enter-slide' : ''}`} style={{
-      backgroundImage: 'url(/images/BG.png)',
+      backgroundImage: 'url(/images/image.png)',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed'
     }}>
       {/* WHITE WRAPPER - Bọc cả 2 phần */}
-      <div className="w-full flex lg:mx-auto lg:max-w-6xl bg-white rounded-2xl overflow-hidden m-4">
+      <div className="w-full flex lg:mx-auto lg:max-w-6xl bg-zinc-50 rounded-2xl overflow-hidden m-4">
         {/* LEFT SIDE - Welcome/Form (hoán đổi theo mode) */}
         {isLogin ? (
           // Login: LEFT = Image with Text Overlay
@@ -56,7 +56,7 @@ export default function AuthLayout({ initialMode = 'login' }: AuthLayoutProps) {
             <div className="w-full h-full relative rounded-2xl overflow-hidden shadow-2xl">
               {/* Background Image */}
               <img 
-                src="/images/luaxanh.png" 
+                src="/images/BG.png" 
                 alt="Rice Green" 
                 className="w-full h-full object-cover"
               />
@@ -64,6 +64,11 @@ export default function AuthLayout({ initialMode = 'login' }: AuthLayoutProps) {
               {/* Text Overlay */}
               <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-8">
                 <div className="text-center max-w-sm">
+                  <img 
+                    src="/images/logo.png" 
+                    alt="Logo" 
+                    className="w-32 h-32 mx-auto mb-4"
+                  />
                   <h2 className="text-4xl font-bold text-white mb-4">
                     Chào mừng trở lại!
                   </h2>
@@ -120,6 +125,11 @@ export default function AuthLayout({ initialMode = 'login' }: AuthLayoutProps) {
               {/* Text Overlay */}
               <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-8">
                 <div className="text-center max-w-sm">
+                  <img 
+                    src="/images/logo.png" 
+                    alt="Logo" 
+                    className="w-32 h-32 mx-auto mb-4"
+                  />
                   <h2 className="text-4xl font-bold text-white mb-4">
                     Bắt đầu hành trình của bạn
                   </h2>

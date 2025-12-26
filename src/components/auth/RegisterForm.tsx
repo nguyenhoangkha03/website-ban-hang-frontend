@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, X, AlertCircle } from 'lucide-react';
+import { Loader2, X, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { GoogleLogo, FacebookLogo } from '@/src/icons/SocialIcons';
 
 // Import Logic Mới
@@ -22,6 +22,8 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
   const [step, setStep] = useState<'INPUT' | 'OTP'>('INPUT');
   const [showExistModal, setShowExistModal] = useState(false);
   const [registerData, setRegisterData] = useState<{ phone: string; password?: string } | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // 1. Setup Form cho Bước 1 (Nhập thông tin)
   const {
@@ -99,7 +101,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
     return (
       <>
         <div className="w-full max-w-md p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
-          <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Đăng Ký Tài Khoản</h2>
+          <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Đăng Ký Tài Khoản</h2>
 
           <form onSubmit={handleSubmit(onCheckInfo)} className="space-y-4">
 
@@ -117,24 +119,42 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
             {/* Password */}
             <div>
               <label className="text-sm font-medium text-gray-700">Mật khẩu</label>
-              <input
-                type="password"
-                {...register('password')}
-                className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'}`}
-                placeholder="••••••••••••"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  {...register('password')}
+                  className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'}`}
+                  placeholder="••••••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 mt-1 text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
               {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
             </div>
 
             {/* Confirm Password */}
             <div>
               <label className="text-sm font-medium text-gray-700">Nhập lại mật khẩu</label>
-              <input
-                type="password"
-                {...register('confirmPassword')}
-                className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 ${errors.confirmPassword ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'}`}
-                placeholder="••••••••••••"
-              />
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  {...register('confirmPassword')}
+                  className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 ${errors.confirmPassword ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'}`}
+                  placeholder="••••••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 mt-1 text-gray-500 hover:text-gray-700"
+                >
+                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
               {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
             </div>
 
@@ -158,7 +178,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
           <div className="mt-8">
             <div className="relative mb-6">
               <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200"></div></div>
-              <div className="relative flex justify-center text-sm"><span className="px-3 bg-white text-gray-500">HOẶC</span></div>
+              <div className="relative flex justify-center text-sm"><span className="px-3 bg-zinc-50 text-gray-500">HOẶC</span></div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <button
