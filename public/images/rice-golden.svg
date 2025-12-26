@@ -1,0 +1,116 @@
+<svg viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky gradient background -->
+  <defs>
+    <linearGradient id="skyGradGolden" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFE4B5;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="fieldGradGolden" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8860B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B6914;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="400" height="250" fill="url(#skyGradGolden)"/>
+  
+  <!-- Field -->
+  <rect y="250" width="400" height="350" fill="url(#fieldGradGolden)"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="80" cy="60" rx="40" ry="25" fill="white" opacity="0.6"/>
+  <ellipse cx="120" cy="70" rx="35" ry="20" fill="white" opacity="0.6"/>
+  <ellipse cx="320" cy="100" rx="45" ry="28" fill="white" opacity="0.5"/>
+  
+  <!-- Rice plants - left side -->
+  <g id="rice-plant-1-golden">
+    <!-- Stem -->
+    <line x1="60" y1="380" x2="60" y2="280" stroke="#6B4423" stroke-width="2"/>
+    <!-- Leaves -->
+    <path d="M 60 300 Q 40 290 35 270" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 60 320 Q 45 315 38 295" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 60 340 Q 75 330 80 310" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 60 360 Q 48 355 42 340" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Head - Golden with grain details -->
+    <ellipse cx="60" cy="270" rx="5" ry="14" fill="#DAA520" transform="rotate(-15 60 270)"/>
+    <ellipse cx="55" cy="258" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="62" cy="260" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="58" cy="264" rx="2" ry="4" fill="#B8860B"/>
+  </g>
+  
+  <!-- Rice plants - center-left -->
+  <g id="rice-plant-2-golden">
+    <line x1="130" y1="380" x2="130" y2="290" stroke="#6B4423" stroke-width="2"/>
+    <path d="M 130 310 Q 110 300 105 280" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 130 330 Q 115 320 108 300" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 130 350 Q 150 340 155 320" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 130 365 Q 118 358 112 345" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="130" cy="280" rx="5" ry="14" fill="#DAA520" transform="rotate(10 130 280)"/>
+    <ellipse cx="125" cy="268" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="132" cy="270" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="129" cy="274" rx="2" ry="4" fill="#B8860B"/>
+  </g>
+  
+  <!-- Rice plants - center -->
+  <g id="rice-plant-3-golden">
+    <line x1="200" y1="390" x2="200" y2="295" stroke="#6B4423" stroke-width="2.5"/>
+    <path d="M 200 315 Q 175 305 168 280" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 200 335 Q 180 325 172 305" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 200 355 Q 225 345 232 325" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 200 372 Q 188 365 182 350" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="200" cy="285" rx="6" ry="16" fill="#FFD700" transform="rotate(-5 200 285)"/>
+    <ellipse cx="195" cy="271" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="202" cy="273" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="200" cy="279" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="198" cy="283" rx="2" ry="4" fill="#B8860B"/>
+  </g>
+  
+  <!-- Rice plants - center-right -->
+  <g id="rice-plant-4-golden">
+    <line x1="270" y1="385" x2="270" y2="295" stroke="#6B4423" stroke-width="2"/>
+    <path d="M 270 315 Q 250 305 245 280" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 270 335 Q 255 325 248 305" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 270 355 Q 290 345 297 325" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 270 370 Q 258 363 252 350" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="270" cy="285" rx="5" ry="14" fill="#DAA520" transform="rotate(8 270 285)"/>
+    <ellipse cx="265" cy="273" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="272" cy="275" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="270" cy="281" rx="2" ry="4" fill="#B8860B"/>
+  </g>
+  
+  <!-- Rice plants - right side -->
+  <g id="rice-plant-5-golden">
+    <line x1="340" y1="380" x2="340" y2="285" stroke="#6B4423" stroke-width="2"/>
+    <path d="M 340 305 Q 320 295 315 270" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 340 325 Q 325 315 318 295" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 340 345 Q 360 335 365 315" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 340 360 Q 328 353 322 340" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="340" cy="275" rx="5" ry="14" fill="#DAA520" transform="rotate(-12 340 275)"/>
+    <ellipse cx="335" cy="263" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="342" cy="265" rx="2" ry="4" fill="#B8860B"/>
+    <ellipse cx="340" cy="271" rx="2" ry="4" fill="#B8860B"/>
+  </g>
+  
+  <!-- Small plants in background for depth -->
+  <g opacity="0.5">
+    <line x1="95" y1="390" x2="95" y2="330" stroke="#6B4423" stroke-width="1.5"/>
+    <path d="M 95 345 Q 85 335 82 320" stroke="#D4A574" stroke-width="1.5" fill="none"/>
+    <ellipse cx="95" cy="320" rx="3" ry="8" fill="#DAA520"/>
+    
+    <line x1="165" y1="390" x2="165" y2="335" stroke="#6B4423" stroke-width="1.5"/>
+    <path d="M 165 350 Q 155 340 152 325" stroke="#D4A574" stroke-width="1.5" fill="none"/>
+    <ellipse cx="165" cy="325" rx="3" ry="8" fill="#DAA520"/>
+    
+    <line x1="235" y1="390" x2="235" y2="340" stroke="#6B4423" stroke-width="1.5"/>
+    <path d="M 235 355 Q 225 345 222 330" stroke="#D4A574" stroke-width="1.5" fill="none"/>
+    <ellipse cx="235" cy="330" rx="3" ry="8" fill="#DAA520"/>
+    
+    <line x1="305" y1="390" x2="305" y2="335" stroke="#6B4423" stroke-width="1.5"/>
+    <path d="M 305 350 Q 295 340 292 325" stroke="#D4A574" stroke-width="1.5" fill="none"/>
+    <ellipse cx="305" cy="325" rx="3" ry="8" fill="#DAA520"/>
+  </g>
+  
+  <!-- Sun - Warmer tone for harvest time -->
+  <circle cx="340" cy="50" r="35" fill="#FFA500" opacity="0.8"/>
+  <circle cx="340" cy="50" r="30" fill="#FFD700" opacity="0.6"/>
+</svg>

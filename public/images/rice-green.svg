@@ -1,0 +1,99 @@
+<svg viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky gradient background -->
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="fieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d8659;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a5c3a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="400" height="250" fill="url(#skyGrad)"/>
+  
+  <!-- Field -->
+  <rect y="250" width="400" height="350" fill="url(#fieldGrad)"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="80" cy="60" rx="40" ry="25" fill="white" opacity="0.7"/>
+  <ellipse cx="120" cy="70" rx="35" ry="20" fill="white" opacity="0.7"/>
+  <ellipse cx="320" cy="100" rx="45" ry="28" fill="white" opacity="0.6"/>
+  
+  <!-- Rice plants - left side -->
+  <g id="rice-plant-1">
+    <!-- Stem -->
+    <line x1="60" y1="380" x2="60" y2="280" stroke="#2d5a3d" stroke-width="2"/>
+    <!-- Leaves -->
+    <path d="M 60 300 Q 40 290 35 270" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 60 320 Q 45 315 38 295" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 60 340 Q 75 330 80 310" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 60 360 Q 48 355 42 340" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Head -->
+    <ellipse cx="60" cy="270" rx="5" ry="12" fill="#4a9d5f" transform="rotate(-15 60 270)"/>
+  </g>
+  
+  <!-- Rice plants - center-left -->
+  <g id="rice-plant-2">
+    <line x1="130" y1="380" x2="130" y2="290" stroke="#2d5a3d" stroke-width="2"/>
+    <path d="M 130 310 Q 110 300 105 280" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 130 330 Q 115 320 108 300" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 130 350 Q 150 340 155 320" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 130 365 Q 118 358 112 345" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="130" cy="280" rx="5" ry="12" fill="#4a9d5f" transform="rotate(10 130 280)"/>
+  </g>
+  
+  <!-- Rice plants - center -->
+  <g id="rice-plant-3">
+    <line x1="200" y1="390" x2="200" y2="295" stroke="#2d5a3d" stroke-width="2.5"/>
+    <path d="M 200 315 Q 175 305 168 280" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 200 335 Q 180 325 172 305" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 200 355 Q 225 345 232 325" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 200 372 Q 188 365 182 350" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="200" cy="285" rx="6" ry="14" fill="#4a9d5f" transform="rotate(-5 200 285)"/>
+  </g>
+  
+  <!-- Rice plants - center-right -->
+  <g id="rice-plant-4">
+    <line x1="270" y1="385" x2="270" y2="295" stroke="#2d5a3d" stroke-width="2"/>
+    <path d="M 270 315 Q 250 305 245 280" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 270 335 Q 255 325 248 305" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 270 355 Q 290 345 297 325" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 270 370 Q 258 363 252 350" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="270" cy="285" rx="5" ry="12" fill="#4a9d5f" transform="rotate(8 270 285)"/>
+  </g>
+  
+  <!-- Rice plants - right side -->
+  <g id="rice-plant-5">
+    <line x1="340" y1="380" x2="340" y2="285" stroke="#2d5a3d" stroke-width="2"/>
+    <path d="M 340 305 Q 320 295 315 270" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 340 325 Q 325 315 318 295" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 340 345 Q 360 335 365 315" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 340 360 Q 328 353 322 340" stroke="#3d7a4d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="340" cy="275" rx="5" ry="12" fill="#4a9d5f" transform="rotate(-12 340 275)"/>
+  </g>
+  
+  <!-- Small plants in background for depth -->
+  <g opacity="0.6">
+    <line x1="95" y1="390" x2="95" y2="330" stroke="#2d5a3d" stroke-width="1.5"/>
+    <path d="M 95 345 Q 85 335 82 320" stroke="#3d7a4d" stroke-width="1.5" fill="none"/>
+    <ellipse cx="95" cy="320" rx="3" ry="8" fill="#4a9d5f"/>
+    
+    <line x1="165" y1="390" x2="165" y2="335" stroke="#2d5a3d" stroke-width="1.5"/>
+    <path d="M 165 350 Q 155 340 152 325" stroke="#3d7a4d" stroke-width="1.5" fill="none"/>
+    <ellipse cx="165" cy="325" rx="3" ry="8" fill="#4a9d5f"/>
+    
+    <line x1="235" y1="390" x2="235" y2="340" stroke="#2d5a3d" stroke-width="1.5"/>
+    <path d="M 235 355 Q 225 345 222 330" stroke="#3d7a4d" stroke-width="1.5" fill="none"/>
+    <ellipse cx="235" cy="330" rx="3" ry="8" fill="#4a9d5f"/>
+    
+    <line x1="305" y1="390" x2="305" y2="335" stroke="#2d5a3d" stroke-width="1.5"/>
+    <path d="M 305 350 Q 295 340 292 325" stroke="#3d7a4d" stroke-width="1.5" fill="none"/>
+    <ellipse cx="305" cy="325" rx="3" ry="8" fill="#4a9d5f"/>
+  </g>
+  
+  <!-- Sun -->
+  <circle cx="340" cy="50" r="35" fill="#FFD700" opacity="0.8"/>
+</svg>
