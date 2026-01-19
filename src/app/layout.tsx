@@ -4,10 +4,10 @@ import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google"; 
 import "./globals.css";
 
-import QueryProvider from '@/src/providers/QueryProvider';
-import SocialAuthListener from '@/src/components/auth/SocialAuthListener';
-import Header from '@/src/components/layout/Header';
-import Footer from '@/src/components/layout/Footer';
+import QueryProvider from '@/providers/QueryProvider';
+import SocialAuthListener from '@/components/auth/SocialAuthListener';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { usePathname } from 'next/navigation';
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 
