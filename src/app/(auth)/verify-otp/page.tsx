@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
-import OtpForm from "@/src/components/auth/OtpForm";
+import OtpForm from "@/components/auth/OtpForm";
 
 export default function VerifyOtpPage() {
     return (

@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
-import { http } from '@/src/lib/http';
-import { LoginFormType, RegisterFormType } from '@/src/lib/validations/auth';
-import { useAuthStore } from '@/src/stores/useAuthStore';
+import { http } from '@/lib/http';
+import { LoginFormType, RegisterFormType } from '@/lib/validations/auth';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
-import { supabaseService } from '@/src/lib/supabase/supabaseService';
+import { supabaseService } from '@/lib/supabase/supabaseService';
 
 // 1. Hook Check Phone
 export const useCheckPhone = () => {

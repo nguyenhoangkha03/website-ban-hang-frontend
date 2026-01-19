@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { http } from '@/src/lib/http';
-import { UserProfile, UpdateProfileType } from '@/src/lib/validations/user';
+import { http } from '@/lib/http';
+import { UserProfile, UpdateProfileType } from '@/lib/validations/user';
 
 // 1. Hook Lấy thông tin Profile
 export const useUserProfile = () => {

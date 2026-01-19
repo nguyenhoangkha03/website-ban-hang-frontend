@@ -1,4 +1,4 @@
-import { UserProfile } from "@/src/lib/validations/user";
+import { UserProfile } from "@/lib/validations/user";
 
 export const AccountUtils = {
   isSocialAccount: (provider?: string) => {

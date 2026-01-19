@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { validatePassword } from '@/src/lib/validations/validation';
+import { validatePassword } from '@/lib/validations/validation';
 import { Loader2, KeyRound, CheckCircle } from 'lucide-react';
 
 export default function ResetPasswordForm() {
