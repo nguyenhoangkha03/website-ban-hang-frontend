@@ -1,11 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, AlertCircle } from 'lucide-react';
-import { GoogleLogo, FacebookLogo } from '@/icons/SocialIcons';
-
+import { Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { GoogleLogo, FacebookLogo } from '@/src/icons/SocialIcons';
 
 import { LoginSchema, LoginFormType } from '@/lib/validations/auth';
 import { useLogin, useSocialLogin } from '@/hooks/api/useAuth';
@@ -15,6 +15,8 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  
   // 1. Setup React Hook Form + Zod Resolver
   const {
     register,
@@ -51,7 +53,7 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
       {/* Header */}
       <div className="text-center mb-8">
       
-        <h2 className="text-2xl font-bold text-gray-800">Đăng Nhập</h2>
+        <h2 className="text-3xl font-bold text-gray-800">Đăng Nhập</h2>
        
       </div>
 
@@ -76,13 +78,22 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
             <label className="text-sm font-medium text-gray-700">Mật khẩu</label>
             
           </div>
-          <input
-            type="password"
-            {...register('password')}
-            className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 transition-all ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'
-              }`}
-            placeholder="••••••••••••"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              {...register('password')}
+              className={`w-full px-4 py-3 rounded-lg border-2 outline-none mt-1 transition-all ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-400 focus:ring-2 focus:ring-green-500'
+                }`}
+              placeholder="••••••••••••"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 mt-1 text-gray-500 hover:text-gray-700"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
           {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
           <div className="flex justify-end">
               <Link href="/forgot-password" className="text-xs text-green-600 hover:underline">Quên mật khẩu?</Link>
@@ -112,7 +123,7 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
       <div className="mt-8">
         <div className="relative mb-6">
           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200"></div></div>
-          <div className="relative flex justify-center text-sm"><span className="px-3 bg-white text-gray-500">HOẶC</span></div>
+          <div className="relative flex justify-center text-sm"><span className="px-3 bg-zinc-50 text-gray-500">HOẶC</span></div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
