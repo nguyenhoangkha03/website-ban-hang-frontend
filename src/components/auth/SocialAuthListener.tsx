@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; // 👈 1. Thêm import này để sửa lỗi 'router'
 import { useMutation } from '@tanstack/react-query';
-import { supabase } from '@/src/lib/supabase/supabase';
-import { useAuthStore } from '@/src/stores/useAuthStore';
-import { http } from '@/src/lib/http';
+import { supabase } from '@/lib/supabase/supabase';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { http } from '@/lib/http';
 import VerifyPhoneModal from './VerifyPhoneModal';
 
 export default function SocialAuthListener() {

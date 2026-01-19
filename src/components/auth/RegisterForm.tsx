@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, X, AlertCircle } from 'lucide-react';
-import { GoogleLogo, FacebookLogo } from '@/src/icons/SocialIcons';
+import { GoogleLogo, FacebookLogo } from '@/icons/SocialIcons';
 
 // Import Logic Mới
-import { RegisterSchema, RegisterFormType } from '@/src/lib/validations/auth';
-import { useCheckPhone, useSendOtp, useVerifyAndRegister, useSocialLogin } from '@/src/hooks/api/useAuth';
+import { RegisterSchema, RegisterFormType } from '@/lib/validations/auth';
+import { useCheckPhone, useSendOtp, useVerifyAndRegister, useSocialLogin } from '@/hooks/api/useAuth';
 import OtpForm from './OtpForm';
 
 interface RegisterFormProps {

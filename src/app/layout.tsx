@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google"; 
 import "./globals.css";
-import QueryProvider from '@/src/providers/QueryProvider';
-import SocialAuthListener from '@/src/components/auth/SocialAuthListener';
+import QueryProvider from '@/providers/QueryProvider';
+import SocialAuthListener from '@/components/auth/SocialAuthListener';
 
 // 👇 1. IMPORT HEADER VÀ FOOTER VÀO ĐÂY
-import Header from '@/src/components/layout/Header';
-import Footer from '@/src/components/layout/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 const montserrat = Montserrat({ 

@@ -1,13 +1,13 @@
 'use client'; 
 // import Header ... -> XÓA
-import Hero from '@/src/components/layout/Hero';
-import CategorySection from '@/src/components/layout/CategorySection';
-import ProductSection from '@/src/components/layout/ProductSection';
-import AboutSection from '@/src/components/layout/AboutSection';
-import NewsSection from '@/src/components/layout/NewsSection';
+import Hero from '@/components/layout/Hero';
+import CategorySection from '@/components/layout/CategorySection';
+import ProductSection from '@/components/layout/ProductSection';
+import AboutSection from '@/components/layout/AboutSection';
+import NewsSection from '@/components/layout/NewsSection';
 // import Footer ... -> XÓA
 
-import { durianProducts, riceProducts, otherProducts } from '@/src/lib/mockData';
+import { durianProducts, riceProducts, otherProducts } from '@/lib/mockData';
 import { Flower, Wheat, Sprout } from 'lucide-react';
 
 const PartnersSection = () => (
@@ -57,8 +57,6 @@ export default function Home() {
       <AboutSection />
       <PartnersSection />
       <NewsSection />
-      
-      {/* ❌ ĐÃ XÓA <Footer /> VÌ LAYOUT ĐÃ CÓ */}
 
     </div>
   );

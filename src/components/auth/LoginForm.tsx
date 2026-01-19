@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, AlertCircle } from 'lucide-react';
-import { GoogleLogo, FacebookLogo } from '@/src/icons/SocialIcons';
+import { GoogleLogo, FacebookLogo } from '@/icons/SocialIcons';
 
 
-import { LoginSchema, LoginFormType } from '@/src/lib/validations/auth';
-import { useLogin, useSocialLogin } from '@/src/hooks/api/useAuth';
+import { LoginSchema, LoginFormType } from '@/lib/validations/auth';
+import { useLogin, useSocialLogin } from '@/hooks/api/useAuth';
 
 interface LoginFormProps {
   onSwitchToRegister?: () => void;

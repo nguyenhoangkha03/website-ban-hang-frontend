@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User, MapPin, Mail, Loader2, Save, Phone, Edit2, X, Lock } from 'lucide-react';
 
-import { UpdateProfileSchema, UpdateProfileType } from '@/src/lib/validations/user';
-import { useUserProfile, useUpdateProfile } from '@/src/hooks/api/useUser';
-import { AccountUtils } from '@/src/lib/utils/account_utils';
+import { UpdateProfileSchema, UpdateProfileType } from '@/lib/validations/user';
+import { useUserProfile, useUpdateProfile } from '@/hooks/api/useUser';
+import { AccountUtils } from '@/lib/utils/account_utils';
 
 export default function UserProfileForm() {
     const { data: userProfile, isLoading } = useUserProfile();

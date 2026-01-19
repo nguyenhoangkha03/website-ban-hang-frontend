@@ -1,5 +1,5 @@
-import UserProfileForm from '@/src/components/user/UserProfileForm';
-import Container from '@/src/components/layout/Container'; // Component Container của bạn
+import UserProfileForm from '@/components/user/UserProfileForm';
+import Container from '@/components/layout/Container'; // Component Container của bạn
 
 export default function ProfilePage() {
   return (

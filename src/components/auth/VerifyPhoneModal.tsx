@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Phone, CheckCircle, Edit, AlertTriangle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { http } from '@/src/lib/http';
+import { http } from '@/lib/http';
 
 interface Props {
   isOpen: boolean;

@@ -1,4 +1,4 @@
-import AuthLayout from "@/src/components/auth/AuthLayout";
+import AuthLayout from "@/components/auth/AuthLayout";
 
 export default function RegisterPage() {
     return <AuthLayout />;

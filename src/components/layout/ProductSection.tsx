@@ -1,6 +1,6 @@
 import React from 'react';
 import { Eye, ShoppingCart, Leaf } from 'lucide-react';
-import { Product } from '../lib/mockData';
+import { Product } from '@/lib/mockData';
 import Container from './Container';
 
 interface ProductSectionProps {

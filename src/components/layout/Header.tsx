@@ -2,25 +2,37 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+// 👇 1. Import usePathname để lấy đường dẫn hiện tại
+import { usePathname, useRouter } from 'next/navigation';
 import { Phone, User, ShoppingCart, Menu, Sun, LogOut, ChevronDown } from 'lucide-react';
-import { navLinks } from '../../../src/lib/mockData';
 import Container from './Container';
 
-// 👇 1. Import Store và Hooks
-import { useAuthStore } from '@/src/stores/useAuthStore';
-import { useRouter } from 'next/navigation';
+// Import Store
+import { useAuthStore } from '@/stores/useAuthStore';
+
+// 👇 2. Định nghĩa Menu trực tiếp tại đây (Chuẩn đường dẫn /products)
+const MENU_ITEMS = [
+  { name: "Trang chủ", href: "/" },
+  { name: "Giới thiệu", href: "/about" },
+  { name: "Sản phẩm", href: "/products" }, // ✅ Đã sửa đúng folder app/products
+  { name: "Tin tức", href: "/news" },
+  { name: "Liên hệ", href: "/contact" },
+];
 
 export default function Header() {
   const router = useRouter();
   
-  // 👇 2. Lấy thông tin User và hàm Logout từ Store
+  // 👇 3. Hook lấy URL hiện tại (VD: /products/15)
+  const pathname = usePathname(); 
+
+  // Lấy state từ Auth Store
   const { user, isAuthenticated, logout } = useAuthStore();
   
-  // State cho dropdown menu (khi click vào avatar)
+  // State dropdown
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Xử lý click outside để đóng dropdown
+  // Xử lý click outside dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -31,25 +43,22 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Hàm xử lý Đăng xuất
+  // Xử lý logout
   const handleLogout = () => {
-    logout(); // Xóa store & localStorage
+    logout();
     setShowDropdown(false);
-    router.push('/login'); // Chuyển về trang login (hoặc reload trang chủ)
-    // window.location.reload(); // Nếu muốn reload sạch sẽ
+    router.push('/login');
   };
 
-  // Hàm render Avatar User
+  // Render User Section
   const renderUserSection = () => {
     if (isAuthenticated && user) {
       return (
         <div className="relative" ref={dropdownRef}>
-          {/* Nút Avatar */}
           <button 
             onClick={() => setShowDropdown(!showDropdown)}
             className="flex items-center gap-2 px-2 py-1.5 rounded-full hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200"
           >
-            {/* Avatar Image hoặc Placeholder */}
             <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold overflow-hidden border border-green-200">
                {user.avatarUrl ? (
                   <img src={user.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -58,14 +67,12 @@ export default function Header() {
                )}
             </div>
             
-            {/* Tên User (ẩn trên mobile) */}
             <div className="hidden md:block text-left">
                <p className="text-xs font-bold text-gray-700 max-w-[100px] truncate">{user.customerName}</p>
             </div>
             <ChevronDown size={14} className="text-gray-400" />
           </button>
 
-          {/* Dropdown Menu */}
           {showDropdown && (
             <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-in fade-in slide-in-from-top-2 z-50">
               <div className="px-4 py-2 border-b border-gray-50 mb-1">
@@ -94,7 +101,6 @@ export default function Header() {
       );
     }
 
-    // Nếu chưa đăng nhập -> Hiện nút Login cũ
     return (
       <Link
         href="/login"
@@ -124,17 +130,27 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`text-sm font-semibold uppercase tracking-wide transition-colors duration-200 ${
-                  link.active ? 'text-primary' : 'text-gray-600 hover:text-primary'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+            {/* 👇 4. Map qua mảng MENU_ITEMS thay vì mockData */}
+            {MENU_ITEMS.map((link) => {
+              // 👇 5. Logic kiểm tra Active
+              const isActive = link.href === '/' 
+                ? pathname === '/' 
+                : pathname.startsWith(link.href); // Cho phép /products/123 vẫn sáng menu Sản phẩm
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-sm font-semibold uppercase tracking-wide transition-colors duration-200 ${
+                    isActive 
+                      ? 'text-primary border-b-2 border-primary pb-1' // Style khi Active
+                      : 'text-gray-600 hover:text-primary'            // Style thường
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Actions */}
@@ -144,7 +160,6 @@ export default function Header() {
               <span className="font-bold text-sm">1800 66 25</span>
             </div>
 
-            {/* 👇 3. Thay thế nút Login cũ bằng hàm renderUserSection */}
             {renderUserSection()}
 
             <button className="p-2 text-gray-500 hover:text-primary transition-colors relative">

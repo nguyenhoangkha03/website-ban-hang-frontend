@@ -8,9 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, ArrowLeft, KeyRound, AlertCircle, X } from 'lucide-react';
 
 // Validate & Hooks
-import { ForgotPasswordPhoneSchema, ForgotPasswordPhoneType, NewPasswordSchema, NewPasswordType } from '@/src/lib/validations/auth';
-import { useCheckPhone, useSendOtp, useSetPassword } from '@/src/hooks/api/useAuth';
-import { supabaseService } from '@/src/lib/supabase/supabaseService';
+import { ForgotPasswordPhoneSchema, ForgotPasswordPhoneType, NewPasswordSchema, NewPasswordType } from '@/lib/validations/auth';
+import { useCheckPhone, useSendOtp, useSetPassword } from '@/hooks/api/useAuth';
+import { supabaseService } from '@/lib/supabase/supabaseService';
 import OtpForm from './OtpForm'; // Tái sử dụng form OTP
 
 export default function ForgotPasswordForm() {
