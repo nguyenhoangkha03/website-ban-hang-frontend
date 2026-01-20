@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google"; // Dùng font của Next.js cho tối ưu
 import "./globals.css";
+import { Providers } from "@/components/providers"; // Import the Providers component
 
 // Cấu hình Font chữ giống thiết kế
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={`${inter.variable} ${montserrat.variable} font-sans bg-gray-50 text-gray-900`}>
-        {children}
+        <Providers> {/* Wrap children with Providers */}
+          {children}
+        </Providers>
       </body>
     </html>
   );

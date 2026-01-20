@@ -3,9 +3,6 @@ import type { NextRequest } from "next/server";
 
 // Chạy trước mỗi request để kiểm tra authentication
 
-// Routes không cần authentication
-const publicRoutes = ["/login", "/signup", "/forgot-password", "/reset-password", "/error-404"];
-
 // Routes chỉ dành cho guest (đã login thì không vào được)
 const guestOnlyRoutes = ["/login"];
 
@@ -25,24 +22,23 @@ export function middleware(request: NextRequest) {
 //   console.log("🔒 Middleware:", { pathname, hasToken: !!token });
 
   // Check nếu là public route
-  const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
   const isGuestOnlyRoute = guestOnlyRoutes.some((route) => pathname.startsWith(route));
   const isProtectedRoute = protectedRoutes.some(
     (route) => pathname === route || pathname.startsWith(route + "/")
   );
 
   // Nếu đã login mà vào guest-only route (login, signup) -> redirect về dashboard
-  if (isAuthenticated && isGuestOnlyRoute) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // if (isAuthenticated && isGuestOnlyRoute) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
   // Nếu chưa login mà vào protected route -> redirect về login
-  if (!isAuthenticated && isProtectedRoute) {
-    const loginUrl = new URL("/login", request.url);
-    // Lưu redirect URL để sau khi login thì quay lại
-    loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
-  }
+  // if (!isAuthenticated && isProtectedRoute) {
+  //   const loginUrl = new URL("/login", request.url);
+  //   // Lưu redirect URL để sau khi login thì quay lại
+  //   loginUrl.searchParams.set("redirect", pathname);
+  //   return NextResponse.redirect(loginUrl);
+  // }
 
   // Cho phép request tiếp tục
   return NextResponse.next();

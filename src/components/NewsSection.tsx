@@ -1,7 +1,33 @@
 import React from 'react';
+import Image from 'next/image';
 import { Newspaper, ArrowRight, Calendar } from 'lucide-react';
-import { news } from '../lib/mockData';
 import Container from './Container';
+const news = [
+  {
+    id: 1,
+    title: 'Hội thảo khoa học: Giải pháp dinh dưỡng cho cây sầu riêng',
+    excerpt: 'Hội thảo quy tụ nhiều chuyên gia hàng đầu trong lĩnh vực nông nghiệp, chia sẻ các giải pháp dinh dưỡng tiên tiến giúp tăng năng suất và chất lượng cho cây sầu riêng.',
+    image: 'https://images.unsplash.com/photo-1587426744783-0a4f6539137c?w=500&q=80',
+    category: 'Sự kiện',
+    date: '20/07/2024',
+  },
+  {
+    id: 2,
+    title: 'Ra mắt sản phẩm mới: Phân bón hữu cơ vi sinh GreenLife',
+    excerpt: 'GreenLife là dòng phân bón hữu cơ vi sinh cao cấp, giúp cải tạo đất, tăng cường sức đề kháng cho cây trồng và thân thiện với môi trường.',
+    image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500&q=80',
+    category: 'Sản phẩm',
+    date: '15/07/2024',
+  },
+  {
+    id: 3,
+    title: 'Cảnh báo: Sâu đục thân gây hại trên diện rộng tại Đồng Bằng Sông Cửu Long',
+    excerpt: 'Các chuyên gia khuyến cáo bà con nông dân cần thăm đồng thường xuyên và áp dụng các biện pháp phòng trừ tổng hợp để hạn chế thiệt hại do sâu đục thân gây ra.',
+    image: 'https://images.unsplash.com/photo-1579547945412-484f526b38c8?w=500&q=80',
+    category: 'Cảnh báo',
+    date: '10/07/2024',
+  },
+];
 
 export default function NewsSection() {
   return (
@@ -19,10 +45,12 @@ export default function NewsSection() {
           {news.map((item) => (
             <article key={item.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
               <div className="relative h-52 overflow-hidden">
-                <img 
+                <Image 
                   src={item.image} 
                   alt={item.title} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4">
                   <span className="inline-block bg-primary text-white text-xs font-bold px-2 py-1 rounded">

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Container from './Container';
 
@@ -33,10 +34,12 @@ export default function Hero() {
           {/* Right Image Carousel */}
           <div className="relative">
              <div className="aspect-[4/3] md:aspect-square lg:aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border-4 border-white relative group">
-                <img 
+                <Image 
                   src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&q=80&w=1200" 
                   alt="Farmer smiling" 
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Youtube, Phone, Mail, MapPin, Globe } from 'lucide-react';
+import { Phone, Mail, MapPin, Globe } from 'lucide-react';
 import Link from "next/link";
 import Image from "next/image";
 
@@ -13,10 +13,12 @@ export default function Footer() {
         <div className="md:w-1/3 pt-10">
           <div className="flex flex-col items-center text-center">
             <div className="w-24 h-24 mb-3">
-              <img
+              <Image
                 src="/images/logo.gif"
                 alt="Logo Công ty Nam Việt"
-                className="w-full h-full object-contain"
+                width={96}
+                height={96}
+                className="object-contain"
               />
             </div>
             <div className="space-y-1">

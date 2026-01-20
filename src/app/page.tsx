@@ -1,14 +1,13 @@
 'use client'; // Thêm dòng này nếu có tương tác (click, scroll)
-import Image from "next/image";
-import Header from '@/src/components/Header';
-import Hero from '@/src/components/Hero';
-import CategorySection from '@/src/components/CategorySection';
-import ProductSection from '@/src/components/ProductSection';
-import AboutSection from '@/src/components/AboutSection';
-import NewsSection from '@/src/components/NewsSection';
-import Footer from '@/src/components/Footer';
+import AppHeader from '@/components/AppHeader';
+import Footer from '@/components/Footer';
+import Hero from '@/components/Hero';
+import CategorySection from '@/components/CategorySection';
+import ProductSection from '@/components/ProductSection';
+import AboutSection from '@/components/AboutSection';
+import NewsSection from '@/components/NewsSection';
 
-import { durianProducts, riceProducts, otherProducts } from '@/src/lib/mockData';
+import { durianProducts, riceProducts, otherProducts } from '@/lib/sample-data';
 import { Flower, Wheat, Sprout } from 'lucide-react';
 
 const PartnersSection = () => (
@@ -29,7 +28,7 @@ const PartnersSection = () => (
 export default function Home() {
   return (
      <main className="min-h-screen selection:bg-primary selection:text-white">
-      <Header />
+      <AppHeader />
       <Hero />
       <CategorySection />
       

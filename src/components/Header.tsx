@@ -1,6 +1,7 @@
 import React from 'react';
+import Image from 'next/image';
 import { Phone, User, ShoppingCart, Menu, Sun } from 'lucide-react';
-import { navLinks } from '../../src/lib/mockData';
+import { navLinks } from '@/lib/mockData';
 import Container from './Container';
 
 export default function Header() {
@@ -11,10 +12,12 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center gap-2">
              <div className="w-19 h-19 mb-3">
-              <img
+              <Image
                 src="/images/logo.gif"
                 alt="Logo Công ty Nam Việt"
-                className="w-full h-full object-contain"
+                width={64}
+                height={64}
+                className="object-contain"
               />
             </div>
 

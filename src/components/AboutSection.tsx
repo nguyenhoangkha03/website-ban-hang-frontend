@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { CheckCircle2, Sprout } from 'lucide-react';
 import Container from './Container';
 
@@ -15,10 +16,12 @@ export default function AboutSection() {
           <div className="lg:w-1/2 relative">
              <div className="relative w-80 h-80 sm:w-96 sm:h-96 mx-auto">
                <div className="absolute inset-0 rounded-full border-8 border-green-100 overflow-hidden shadow-2xl">
-                 <img 
-                   src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1000" 
+                 <Image 
+                   src="https://images.unsplash.com/photo-1559884812-70663744ce8b?w=1000&q=80" 
                    alt="Nam Viet Team" 
-                   className="w-full h-full object-cover"
+                   fill
+                   sizes="(max-width: 640px) 320px, 384px"
+                   className="object-cover"
                  />
                </div>
                
@@ -40,7 +43,7 @@ export default function AboutSection() {
             </div>
             
             <h2 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-2">
-              "CÔNG NGHỆ XANH CHO THỰC PHẨM SẠCH"
+              &quot;CÔNG NGHỆ XANH CHO THỰC PHẨM SẠCH&quot;
             </h2>
             
             <div className="w-20 h-1 bg-primary mx-auto lg:mx-0 mb-6 rounded-full"></div>
