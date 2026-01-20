@@ -78,21 +78,41 @@ export default function OtpForm({ phone = '09xxxxxxxx', type, onVerifySuccess, i
     setInternalLoading(true);
     // Giả lập delay
     setTimeout(() => {
-        setInternalLoading(false);
-        // Logic điều hướng cũ
-        if (type === 'forgot_password') {
-            router.push('/reset-password');
-        } else {
-            alert('Xác thực thành công (Chế độ test)');
-        }
+      setInternalLoading(false);
+      // Logic điều hướng cũ
+      if (type === 'forgot_password') {
+        router.push('/reset-password');
+      } else {
+        alert('Xác thực thành công (Chế độ test)');
+      }
     }, 1000);
   };
 
   const loadingState = isLoading || internalLoading;
 
   return (
-    <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center animate-in fade-in zoom-in duration-500 delay-100">
-      
+    <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center animate-in fade-in zoom-in duration-500 delay-100 relative">
+
+      {/* Nút đóng - Chỉ hiện trên mobile */}
+      <button
+        onClick={onGoBack || (() => router.push('/'))}
+        className="lg:hidden absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+        aria-label="Đóng"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      {/* Logo - Chỉ hiện trên mobile */}
+      <div className="lg:hidden flex justify-center mb-4">
+        <img
+          src="/images/logo.png"
+          alt="Nam Việt Logo"
+          className="w-16 h-16"
+        />
+      </div>
+
       {/* Icon Khiên xanh */}
       <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
         <ShieldCheck className="text-blue-600 w-8 h-8" />
@@ -134,8 +154,8 @@ export default function OtpForm({ phone = '09xxxxxxxx', type, onVerifySuccess, i
 
       {/* Nút Quay lại */}
       <div className="mt-6">
-        <button 
-          onClick={onGoBack || (() => window.history.back())} 
+        <button
+          onClick={onGoBack || (() => window.history.back())}
           className="flex items-center justify-center gap-2 mx-auto text-blue-600 text-sm font-medium hover:underline"
         >
           <ArrowLeft size={16} />

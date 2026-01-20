@@ -1,5 +1,9 @@
 import AuthLayout from "@/components/auth/AuthLayout";
 
 export default function LoginPage() {
-    return <AuthLayout />;
+    return (
+        <div className="page-transition-fade-slide-in-left">
+            <AuthLayout />
+        </div>
+    );
 }

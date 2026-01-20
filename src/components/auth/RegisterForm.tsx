@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Loader2, X, AlertCircle, Eye, EyeOff } from 'lucide-react';
-import { GoogleLogo, FacebookLogo } from '@/src/icons/SocialIcons';
+import { GoogleLogo, FacebookLogo } from '@/icons/SocialIcons';
 
 // Import Logic Mới
 import { RegisterSchema, RegisterFormType } from '@/lib/validations/auth';
@@ -101,7 +101,28 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
   if (step === 'INPUT') {
     return (
       <>
-        <div className="w-full max-w-md p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+        <div className="w-full max-w-md p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 relative">
+
+          {/* Nút đóng - Chỉ hiện trên mobile */}
+          <button
+            onClick={() => router.push('/')}
+            className="lg:hidden absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Đóng"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Logo - Chỉ hiện trên mobile */}
+          <div className="lg:hidden flex justify-center mb-6">
+            <img
+              src="/images/logo.png"
+              alt="Nam Việt Logo"
+              className="w-20 h-20"
+            />
+          </div>
+
           <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Đăng Ký Tài Khoản</h2>
 
           <form onSubmit={handleSubmit(onCheckInfo)} className="space-y-4">

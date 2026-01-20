@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react';
-import { GoogleLogo, FacebookLogo } from '@/src/icons/SocialIcons';
+import { GoogleLogo, FacebookLogo } from '@/icons/SocialIcons';
 
 import { LoginSchema, LoginFormType } from '@/lib/validations/auth';
 import { useLogin, useSocialLogin } from '@/hooks/api/useAuth';
@@ -15,8 +16,9 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  
+
   // 1. Setup React Hook Form + Zod Resolver
   const {
     register,
@@ -48,13 +50,31 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
   };
 
   return (
-    <div className="w-full max-w-md p-8 animate-in fade-in zoom-in duration-500 delay-100">
+    <div className="w-full max-w-md p-8 animate-in fade-in zoom-in duration-500 delay-100 relative">
+
+      {/* Nút đóng - Chỉ hiện trên mobile */}
+      <button
+        onClick={() => router.push('/')}
+        className="lg:hidden absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+        aria-label="Đóng"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      {/* Logo - Chỉ hiện trên mobile */}
+      <div className="lg:hidden flex justify-center mb-6">
+        <img
+          src="/images/logo.png"
+          alt="Nam Việt Logo"
+          className="w-20 h-20"
+        />
+      </div>
 
       {/* Header */}
       <div className="text-center mb-8">
-      
         <h2 className="text-3xl font-bold text-gray-800">Đăng Nhập</h2>
-       
       </div>
 
       {/* Form */}
@@ -76,7 +96,7 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
         <div>
           <div className="flex justify-between">
             <label className="text-sm font-medium text-gray-700">Mật khẩu</label>
-            
+
           </div>
           <div className="relative">
             <input
@@ -96,7 +116,7 @@ export default function LoginForm({ onSwitchToRegister }: LoginFormProps) {
           </div>
           {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
           <div className="flex justify-end">
-              <Link href="/forgot-password" className="text-xs text-green-600 hover:underline">Quên mật khẩu?</Link>
+            <Link href="/forgot-password" className="text-xs text-green-600 hover:underline">Quên mật khẩu?</Link>
           </div>
         </div>
 
