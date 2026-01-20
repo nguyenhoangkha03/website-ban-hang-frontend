@@ -1,11 +1,10 @@
 'use client'; 
-// import Header ... -> XÓA
+
 import Hero from '@/components/layout/Hero';
 import CategorySection from '@/components/layout/CategorySection';
 import ProductSection from '@/components/layout/ProductSection';
 import AboutSection from '@/components/layout/AboutSection';
 import NewsSection from '@/components/layout/NewsSection';
-// import Footer ... -> XÓA
 
 import { durianProducts, riceProducts, otherProducts } from '@/lib/mockData';
 import { Flower, Wheat, Sprout } from 'lucide-react';
