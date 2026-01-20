@@ -10,15 +10,15 @@ import { durianProducts, riceProducts, otherProducts } from '@/lib/mockData';
 import { Flower, Wheat, Sprout } from 'lucide-react';
 
 const PartnersSection = () => (
-  <section className="py-12 border-t border-b border-gray-100 bg-white">
+  <section className="py-12 border-t border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
     <div className="container mx-auto px-4">
-      <h3 className="text-center font-bold text-gray-400 uppercase tracking-widest text-sm mb-8">Đối tác chiến lược</h3>
+      <h3 className="text-center font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest text-sm mb-8">Đối tác chiến lược</h3>
       <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-        <span className="text-2xl font-black text-gray-300 font-display">BIOAGRI</span>
-        <span className="text-2xl font-black text-gray-300 font-display">GREENLIFE</span>
-        <span className="text-2xl font-black text-gray-300 font-display">AGROTEX</span>
-        <span className="text-2xl font-black text-gray-300 font-display">FARMCARE</span>
-        <span className="text-2xl font-black text-gray-300 font-display">SUNRICE</span>
+        <span className="text-2xl font-black text-gray-300 dark:text-gray-600 font-display">BIOAGRI</span>
+        <span className="text-2xl font-black text-gray-300 dark:text-gray-600 font-display">GREENLIFE</span>
+        <span className="text-2xl font-black text-gray-300 dark:text-gray-600 font-display">AGROTEX</span>
+        <span className="text-2xl font-black text-gray-300 dark:text-gray-600 font-display">FARMCARE</span>
+        <span className="text-2xl font-black text-gray-300 dark:text-gray-600 font-display">SUNRICE</span>
       </div>
     </div>
   </section>
@@ -32,7 +32,7 @@ export default function Home() {
       <Hero />
       <CategorySection />
       
-      <div id="products" className="space-y-12 py-12">
+      <div id="products" className="space-y-12 py-12 bg-white dark:bg-gray-900">
         <ProductSection 
           title="Giải pháp cho Sầu Riêng" 
           products={durianProducts} 
@@ -42,7 +42,7 @@ export default function Home() {
         <ProductSection 
           title="Giải pháp cho Cây Lúa" 
           products={riceProducts} 
-          bgColor="bg-green-50"
+          bgColor="bg-green-50 dark:bg-gray-800"
           icon={Wheat}
         />
         

@@ -18,20 +18,20 @@ export default function ProductsPage() {
   const meta = data?.meta;
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen">
+    <div className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 min-h-screen">
       
       {/* HERO SECTION - Matching Homepage Style */}
-      <section className="relative bg-gradient-to-br from-primary to-green-700 py-12 md:py-16 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-primary to-green-700 dark:from-green-800 dark:to-green-900 py-16 md:py-20 pb-24 md:pb-28 overflow-hidden">
         <Container>
           <div className="relative z-10 text-center animate-fade-in-up">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white text-xs md:text-sm font-bold px-4 py-2 rounded-full uppercase tracking-wider mb-4">
               <Package size={16} />
               Vật tư Nông nghiệp Chính hãng
             </div>
-            <h1 className="font-display font-extrabold text-3xl md:text-5xl lg:text-6xl text-white leading-tight mb-4">
+            <h1 className="font-display font-extrabold text-3xl md:text-5xl lg:text-6xl text-white leading-tight mb-6">
               Danh Mục Sản Phẩm
             </h1>
-            <p className="text-green-50 text-base md:text-lg max-w-2xl mx-auto font-medium">
+            <p className="text-white text-base md:text-lg max-w-2xl mx-auto font-semibold">
               🌱 Chất lượng cao - Hiệu quả vượt trội - Giao hàng tận nơi 🚛
             </p>
           </div>
@@ -47,7 +47,7 @@ export default function ProductsPage() {
           >
             <path
               d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-              className="fill-gray-50"
+              className="fill-gray-50 dark:fill-gray-900"
             />
           </svg>
         </div>
@@ -71,11 +71,11 @@ export default function ProductsPage() {
           ) : isError ? (
              <div className="py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm animate-fade-in-up">
                <div className="text-red-500 text-5xl mb-4">⚠️</div>
-               <p className="text-red-600 font-bold text-lg mb-2">Có lỗi kết nối máy chủ</p>
-               <p className="text-gray-500 mb-4">Vui lòng thử lại sau</p>
+               <p className="text-red-600 dark:text-red-400 font-bold text-lg mb-2">Có lỗi kết nối máy chủ</p>
+               <p className="text-gray-500 dark:text-gray-400 mb-4">Vui lòng thử lại sau</p>
                <button 
                   onClick={() => window.location.reload()} 
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-lg hover:bg-green-700 transition-all shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary dark:bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 dark:hover:bg-green-500 transition-all shadow-lg"
                >
                   Tải lại trang
                </button>
@@ -114,15 +114,15 @@ export default function ProductsPage() {
             </>
           ) : (
             /* EMPTY STATE - Improved Design */
-            <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200 animate-fade-in-up">
-               <SearchX className="h-20 w-20 mb-6 text-gray-300"/>
-               <p className="text-xl font-bold text-gray-700 mb-2">Không tìm thấy sản phẩm nào</p>
-               <p className="text-sm text-gray-500 mb-6 max-w-md text-center">
+            <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-800 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 animate-fade-in-up">
+               <SearchX className="h-20 w-20 mb-6 text-gray-300 dark:text-gray-600"/>
+               <p className="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">Không tìm thấy sản phẩm nào</p>
+               <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 max-w-md text-center">
                  Hãy thử thay đổi bộ lọc hoặc từ khóa tìm kiếm để tìm sản phẩm phù hợp
                </p>
                <button 
                  onClick={() => window.location.href = '/products'}
-                 className="px-6 py-3 bg-primary text-white font-bold rounded-lg hover:bg-green-700 transition-all shadow-lg"
+                 className="px-6 py-3 bg-primary dark:bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 dark:hover:bg-green-500 transition-all shadow-lg"
                >
                  Xem tất cả sản phẩm
                </button>

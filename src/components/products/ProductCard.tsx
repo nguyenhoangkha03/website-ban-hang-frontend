@@ -14,10 +14,10 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-300 hover:shadow-2xl hover:border-green-200 hover:-translate-y-1 animate-fade-in-up">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 transition-all duration-300 hover:shadow-2xl hover:border-green-200 dark:hover:border-green-700 hover:-translate-y-1 animate-fade-in-up">
       
       {/* 1. HÌNH ẢNH & BADGE */}
-      <Link href={`/products/${product.id}`} className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+      <Link href={`/products/${product.id}`} className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
         <Image
           src={product.image || '/image_404.png'}
           alt={product.name}
@@ -62,20 +62,20 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="flex flex-1 flex-col p-4 md:p-5">
         {/* Danh mục */}
         <div className="mb-3">
-          <span className="inline-block text-[10px] md:text-xs text-primary font-bold uppercase tracking-wider bg-green-50 px-2 py-1 rounded">
+          <span className="inline-block text-[10px] md:text-xs text-primary dark:text-green-400 font-bold uppercase tracking-wider bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded">
              {product.category.name}
           </span>
         </div>
 
         {/* Tên sản phẩm */}
         <Link href={`/products/${product.id}`}>
-          <h3 className="line-clamp-2 text-sm md:text-base font-bold text-gray-900 hover:text-primary min-h-[44px] mb-3 transition-colors leading-snug" title={product.name}>
+          <h3 className="line-clamp-2 text-sm md:text-base font-bold text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-green-400 min-h-[44px] mb-3 transition-colors leading-snug" title={product.name}>
             {product.name}
           </h3>
         </Link>
 
         {/* Giá bán */}
-        <div className="mt-auto pt-3 border-t border-gray-100">
+        <div className="mt-auto pt-3 border-t border-gray-100 dark:border-gray-700">
           <div className="flex flex-wrap items-baseline gap-2 mb-3">
             <span className="text-lg md:text-xl font-black text-red-600">
               {formatCurrency(product.salePrice)}
@@ -89,9 +89,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           
           {/* Khuyến mãi / Quà tặng */}
           {product.promotion && (
-             <div className="mb-3 flex items-start gap-2 p-2.5 bg-gradient-to-r from-red-50 to-pink-50 rounded-lg border border-red-100 shadow-sm">
+             <div className="mb-3 flex items-start gap-2 p-2.5 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-lg border border-red-100 dark:border-red-800 shadow-sm">
                 <span className="text-lg flex-shrink-0">🎁</span>
-                <span className="text-xs font-semibold text-red-700 leading-tight line-clamp-2">
+                <span className="text-xs font-semibold text-red-700 dark:text-red-400 leading-tight line-clamp-2">
                    {product.promotion.type === 'gift' && product.promotion.giftName 
                       ? `Tặng: ${product.promotion.giftName}` 
                       : product.promotion.name}

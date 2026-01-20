@@ -31,17 +31,17 @@ export default function ProductToolbar({ total }: { total: number }) {
           <input
             type="text"
             placeholder="🔍 Tìm kiếm sản phẩm theo tên, thành phần, công dụng..."
-            className="w-full rounded-2xl border-2 border-gray-200 bg-white py-4 pl-14 pr-12 text-base shadow-md transition-all duration-300 placeholder:text-gray-400 focus:border-primary focus:ring-4 focus:ring-green-100 focus:shadow-lg"
+            className="w-full rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 py-4 pl-14 pr-12 text-base shadow-md transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 text-gray-900 dark:text-gray-100 focus:border-primary dark:focus:border-green-500 focus:ring-4 focus:ring-green-100 dark:focus:ring-green-900/30 focus:shadow-lg"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
+          <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-primary dark:text-green-400" />
           
           {searchTerm && (
             <button 
               type="button"
               onClick={() => { setSearchTerm(''); setSearch(''); }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all duration-200"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-all duration-200"
             >
               <X size={20} />
             </button>
@@ -50,13 +50,13 @@ export default function ProductToolbar({ total }: { total: number }) {
       </form>
 
       {/* 2. BỘ LỌC - Improved Visual Hierarchy */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-md overflow-hidden">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-5">
           
           {/* Nhóm lọc bên trái */}
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center text-sm font-bold text-gray-800 mr-2 bg-gray-50 px-3 py-2 rounded-lg">
-               <SlidersHorizontal size={16} className="mr-2 text-primary"/> 
+            <div className="flex items-center text-sm font-bold text-gray-800 dark:text-gray-200 mr-2 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-lg">
+               <SlidersHorizontal size={16} className="mr-2 text-primary dark:text-green-400"/> 
                Bộ lọc
             </div>
 
@@ -96,7 +96,7 @@ export default function ProductToolbar({ total }: { total: number }) {
             {hasActiveFilters && (
               <button
                 onClick={clearAllFilters}
-                className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all duration-200 border border-red-200"
+                className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-xl transition-all duration-200 border border-red-200 dark:border-red-800"
               >
                 <X size={16} />
                 Xóa bộ lọc
@@ -105,17 +105,17 @@ export default function ProductToolbar({ total }: { total: number }) {
           </div>
 
           {/* Nhóm bên phải */}
-          <div className="flex items-center justify-between lg:justify-end gap-4 border-t lg:border-t-0 border-gray-100 pt-4 lg:pt-0">
-            <span className="text-sm font-medium text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
-              <span className="text-primary font-bold">{total}</span> sản phẩm
+          <div className="flex items-center justify-between lg:justify-end gap-4 border-t lg:border-t-0 border-gray-100 dark:border-gray-700 pt-4 lg:pt-0">
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-lg">
+              <span className="text-primary dark:text-green-400 font-bold">{total}</span> sản phẩm
             </span>
             
             <div className="flex items-center gap-3">
-               <span className="text-sm font-semibold text-gray-500 hidden sm:inline">Sắp xếp:</span>
+               <span className="text-sm font-semibold text-gray-500 dark:text-gray-400 hidden sm:inline">Sắp xếp:</span>
                <select
                   value={filters.sortBy}
                   onChange={(e) => setSort(e.target.value)}
-                  className="rounded-xl border-2 border-gray-200 bg-white py-2.5 pl-4 pr-10 text-sm font-semibold text-gray-700 focus:border-primary focus:ring-2 focus:ring-green-100 cursor-pointer hover:border-gray-300 transition-all shadow-sm"
+                  className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 py-2.5 pl-4 pr-10 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:border-primary dark:focus:border-green-500 focus:ring-2 focus:ring-green-100 dark:focus:ring-green-900/30 cursor-pointer hover:border-gray-300 dark:hover:border-gray-600 transition-all shadow-sm"
                >
                   <option value="newest">🆕 Mới nhất</option>
                   <option value="price_asc">💰 Giá tăng dần</option>
