@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'; // 👈 1. Thêm import này để 
 import { useMutation } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase/supabase';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { http } from '@/lib/http';
+import { http } from '@/lib/axios';
 import VerifyPhoneModal from './VerifyPhoneModal';
 
 export default function SocialAuthListener() {

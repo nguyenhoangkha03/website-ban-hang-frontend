@@ -1,36 +1,62 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { http } from '@/lib/http';
-import { UserProfile, UpdateProfileType } from '@/lib/validations/user';
+import { api } from '@/lib/axios'; // ✅ Dùng instance 'api' mới
+import { UserProfile, UpdateProfileType } from '@/lib/validations/user.validation'; // ✅ Import đúng file validation
+import { useAuthStore } from '@/stores/useAuthStore'; // ✅ Import store để check token
+
+// Key quản lý Cache
+export const userKeys = {
+  profile: ['user-profile'] as const,
+};
 
 // 1. Hook Lấy thông tin Profile
 export const useUserProfile = () => {
+  // Lấy accessToken từ Store để kiểm tra
+  const accessToken = useAuthStore((state) => state.accessToken);
+
   return useQuery({
-    queryKey: ['user-profile'],
+    queryKey: userKeys.profile,
     queryFn: async () => {
-      // Gọi vào endpoint CS Customer
-      const res = await http.get('/cs/customers/profile');
+      // Gọi API: GET /customer/account/profile
+      const res = await api.get('/customer/account/profile');
       return res.data.data as UserProfile;
     },
-    staleTime: 1000 * 60 * 5, // Cache trong 5 phút
+    // ✅ QUAN TRỌNG: Chỉ fetch khi đã đăng nhập (có token)
+    enabled: !!accessToken, 
+    // Cache 5 phút
+    staleTime: 1000 * 60 * 5, 
+    // Không tự fetch lại khi click sang tab khác (đỡ tốn request)
+    refetchOnWindowFocus: false,
   });
 };
 
 // 2. Hook Cập nhật Profile
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
+  // Lấy hàm login để update ngược lại vào Store (RAM)
+  const { login, accessToken } = useAuthStore(); 
 
   return useMutation({
     mutationFn: async (data: UpdateProfileType) => {
-      const res = await http.put('/cs/customers/profile', data);
+      // Gọi API: PUT /customer/account/profile
+      const res = await api.put('/customer/account/profile', data);
       return res.data;
     },
-    onSuccess: () => {
-      // Cập nhật xong thì làm mới cache để hiển thị dữ liệu mới nhất
-      queryClient.invalidateQueries({ queryKey: ['user-profile'] });
+    onSuccess: (response) => {
+      // 1. Làm mới Cache của React Query
+      queryClient.invalidateQueries({ queryKey: userKeys.profile });
+      
+      // 2. ✅ Cập nhật ngay vào Store (Zustand) để Header đổi tên/avatar liền
+      // Backend thường trả về data user mới nhất trong response.data
+      if (response.data && accessToken) {
+         login(response.data, accessToken);
+      }
+
       alert('✅ Cập nhật hồ sơ thành công!');
     },
     onError: (err: any) => {
-      alert('❌ Có lỗi xảy ra: ' + (err?.response?.data?.message || err.message));
+      console.error(err);
+      const msg = err?.response?.data?.message || err.message || 'Có lỗi xảy ra';
+      alert('❌ ' + msg);
     }
   });
 };
