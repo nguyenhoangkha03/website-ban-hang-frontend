@@ -4,11 +4,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 // 👇 1. Import usePathname để lấy đường dẫn hiện tại
 import { usePathname, useRouter } from 'next/navigation';
-import { Phone, User, ShoppingCart, Menu, Sun, LogOut, ChevronDown } from 'lucide-react';
+import { Phone, User, ShoppingCart, Menu, Sun, Moon, LogOut, ChevronDown } from 'lucide-react';
 import Container from './Container';
 
 // Import Store
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useThemeStore } from '@/stores/useThemeStore';
 
 // 👇 2. Định nghĩa Menu trực tiếp tại đây (Chuẩn đường dẫn /products)
 const MENU_ITEMS = [
@@ -27,6 +28,9 @@ export default function Header() {
 
   // Lấy state từ Auth Store
   const { user, isAuthenticated, logout } = useAuthStore();
+  
+  // Lấy theme state
+  const { theme, toggleTheme } = useThemeStore();
   
   // State dropdown
   const [showDropdown, setShowDropdown] = useState(false);
@@ -57,9 +61,9 @@ export default function Header() {
         <div className="relative" ref={dropdownRef}>
           <button 
             onClick={() => setShowDropdown(!showDropdown)}
-            className="flex items-center gap-2 px-2 py-1.5 rounded-full hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200"
+            className="flex items-center gap-2 px-2 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all border border-transparent hover:border-gray-200 dark:hover:border-gray-700"
           >
-            <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold overflow-hidden border border-green-200">
+            <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center text-green-700 dark:text-green-300 font-bold overflow-hidden border border-green-200 dark:border-green-700">
                {user.avatarUrl ? (
                   <img src={user.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                ) : (
@@ -68,30 +72,30 @@ export default function Header() {
             </div>
             
             <div className="hidden md:block text-left">
-               <p className="text-xs font-bold text-gray-700 max-w-[100px] truncate">{user.customerName}</p>
+               <p className="text-xs font-bold text-gray-700 dark:text-gray-300 max-w-[100px] truncate">{user.customerName}</p>
             </div>
-            <ChevronDown size={14} className="text-gray-400" />
+            <ChevronDown size={14} className="text-gray-400 dark:text-gray-500" />
           </button>
 
           {showDropdown && (
-            <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-in fade-in slide-in-from-top-2 z-50">
-              <div className="px-4 py-2 border-b border-gray-50 mb-1">
-                 <p className="text-sm font-bold text-gray-800 truncate">{user.customerName}</p>
-                 <p className="text-xs text-gray-500 truncate">{user.phone}</p>
+            <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-2 animate-in fade-in slide-in-from-top-2 z-50">
+              <div className="px-4 py-2 border-b border-gray-50 dark:border-gray-700 mb-1">
+                 <p className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate">{user.customerName}</p>
+                 <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.phone}</p>
               </div>
               
-              <Link href="/profile" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+              <Link href="/profile" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                 <User size={16} /> Hồ sơ cá nhân
               </Link>
-              <Link href="/orders" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+              <Link href="/orders" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                 <ShoppingCart size={16} /> Đơn mua
               </Link>
               
-              <div className="h-px bg-gray-100 my-1"></div>
+              <div className="h-px bg-gray-100 dark:bg-gray-700 my-1"></div>
               
               <button 
                 onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
               >
                 <LogOut size={16} /> Đăng xuất
               </button>
@@ -104,7 +108,7 @@ export default function Header() {
     return (
       <Link
         href="/login"
-        className="flex items-center gap-2 px-3 py-2 rounded-full bg-green-50 text-green-700 hover:bg-green-100 transition-all font-bold text-sm"
+        className="flex items-center gap-2 px-3 py-2 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition-all font-bold text-sm"
       >
         <User size={18} />
         <span>Đăng nhập</span>
@@ -113,7 +117,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
+    <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-100 dark:border-gray-800 transition-colors">
       <Container>
         <div className="h-20 flex items-center justify-between">
           {/* Logo */}
@@ -125,7 +129,7 @@ export default function Header() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="font-display font-bold text-2xl text-primary tracking-tight">NAM VIET</span>
+            <span className="font-display font-bold text-2xl text-primary dark:text-green-400 tracking-tight">NAM VIET</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -143,8 +147,8 @@ export default function Header() {
                   href={link.href}
                   className={`text-sm font-semibold uppercase tracking-wide transition-colors duration-200 ${
                     isActive 
-                      ? 'text-primary border-b-2 border-primary pb-1' // Style khi Active
-                      : 'text-gray-600 hover:text-primary'            // Style thường
+                      ? 'text-primary dark:text-green-400 border-b-2 border-primary dark:border-green-400 pb-1' // Style khi Active
+                      : 'text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-green-400'            // Style thường
                   }`}
                 >
                   {link.name}
@@ -155,23 +159,27 @@ export default function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <div className="hidden lg:flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-primary-dark transition-colors cursor-pointer">
+            <div className="hidden lg:flex items-center gap-2 bg-primary dark:bg-green-700 text-white px-4 py-2 rounded-full shadow-md hover:bg-primary-dark dark:hover:bg-green-600 transition-colors cursor-pointer">
               <Phone size={18} />
               <span className="font-bold text-sm">1800 66 25</span>
             </div>
 
             {renderUserSection()}
 
-            <button className="p-2 text-gray-500 hover:text-primary transition-colors relative">
+            <button className="p-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-green-400 transition-colors relative">
               <ShoppingCart size={20} />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
 
-            <button className="p-2 text-gray-500 hover:text-primary transition-colors">
-              <Sun size={20} />
+            <button 
+              onClick={toggleTheme}
+              className="p-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-green-400 transition-all hover:rotate-180 duration-500"
+              aria-label="Toggle theme"
+            >
+              {theme === 'light' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
 
-            <button className="md:hidden p-2 text-gray-600">
+            <button className="md:hidden p-2 text-gray-600 dark:text-gray-400">
               <Menu size={24} />
             </button>
           </div>
