@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import AuthBanner from './AuthBanner';
 
 type AuthMode = 'login' | 'register';
 
@@ -13,143 +14,86 @@ interface AuthLayoutProps {
 export default function AuthLayout({ initialMode = 'login' }: AuthLayoutProps) {
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    // Trigger page enter animation on first load
-    setTimeout(() => setIsInitialLoad(false), 50);
-  }, []);
+  // Fix hydration mismatch
+  useEffect(() => setIsMounted(true), []);
 
-  const handleSwitchToRegister = () => {
+  // Hàm chuyển đổi chế độ chung
+  const switchMode = (newMode: AuthMode) => {
+    if (mode === newMode || isAnimating) return;
+    
     setIsAnimating(true);
+    // Thời gian timeout phải khớp với duration của CSS animation (ví dụ 500ms)
     setTimeout(() => {
-      setMode('register');
+      setMode(newMode);
       setIsAnimating(false);
-    }, 600);
+    }, 500);
   };
 
-  const handleSwitchToLogin = () => {
-    setIsAnimating(true);
-    setTimeout(() => {
-      setMode('login');
-      setIsAnimating(false);
-    }, 600);
-  };
+  if (!isMounted) return null;
 
   const isLogin = mode === 'login';
 
   return (
-    <div className={`min-h-screen bg-white flex items-center justify-center overflow-hidden ${isInitialLoad ? 'page-enter-slide' : ''}`} style={{
-      backgroundImage: 'url(/images/image.png)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed'
-    }}>
-      {/* WHITE WRAPPER - Bọc cả 2 phần */}
-      <div className="w-full flex lg:mx-auto lg:max-w-6xl bg-zinc-50 rounded-2xl overflow-hidden m-4">
-        {/* LEFT SIDE - Welcome/Form (hoán đổi theo mode) */}
+    <div 
+      className="min-h-screen flex items-center justify-center p-4 transition-all duration-700"
+      style={{
+        backgroundImage: 'url(/images/BG.png)', // Đảm bảo ảnh này tồn tại
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Main Card Container */}
+      <div className="w-full flex bg-white rounded-3xl shadow-2xl overflow-hidden max-w-6xl min-h-[600px]">
+        
+        {/* --- LEFT SIDE --- */}
         {isLogin ? (
-          // Login: LEFT = Image with Text Overlay
-          <div className={`hidden lg:flex w-1/2 items-center justify-center p-8 ${
-            isAnimating ? 'auth-left-exit-right' : 'form-fade-in'
-          }`} key="login-left">
-            <div className="w-full h-full relative rounded-2xl overflow-hidden shadow-2xl">
-              {/* Background Image */}
-              <img 
-                src="/images/BG.png" 
-                alt="Rice Green" 
-                className="w-full h-full object-cover"
-              />
-              
-              {/* Text Overlay */}
-              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-8">
-                <div className="text-center max-w-sm">
-                  <img 
-                    src="/images/logo.png" 
-                    alt="Logo" 
-                    className="w-32 h-32 mx-auto mb-4"
-                  />
-                  <h2 className="text-4xl font-bold text-white mb-4">
-                    Chào mừng trở lại!
-                  </h2>
-                  <p className="text-lg text-white/90 mb-8">
-                    Đăng nhập để tiếp tục hành trình mua sắm của bạn
-                  </p>
-                  <div className="pt-8 border-t border-white/30">
-                    <p className="text-white mb-3">Chưa có tài khoản?</p>
-                    <button
-                      onClick={handleSwitchToRegister}
-                      className="w-full bg-white text-green-600 font-bold py-3 rounded-lg hover:bg-gray-100 transition-all"
-                    >
-                      Đăng ký ngay
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          // LOGIN MODE: Banner bên Trái
+          <AuthBanner
+            position="left"
+            isAnimating={isAnimating}
+            image="/images/luaxanh.png"
+            title="Chào mừng trở lại!"
+            description="Đăng nhập để tiếp tục hành trình cùng nông sản sạch Nam Việt."
+            promptText="Chưa có tài khoản?"
+            buttonText="Đăng ký ngay"
+            onSwitch={() => switchMode('register')}
+          />
         ) : (
-          // Register: LEFT = Form (fade-in after animation)
-          <div className={`w-full lg:w-1/2 flex items-center justify-center p-4 lg:p-8 ${
-            isAnimating ? 'auth-left-exit-right' : 'form-fade-in'
-          }`} key="register-left">
+          // REGISTER MODE: Form bên Trái
+          <div className={`w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-white ${isAnimating ? 'form-exit' : 'form-enter'}`}>
             <div className="w-full max-w-md">
-              <RegisterForm onSwitchToLogin={handleSwitchToLogin} />
+              {/* Truyền callback để nút "Đăng nhập ngay" trong form mobile hoạt động */}
+              <RegisterForm onSwitchToLogin={() => switchMode('login')} />
             </div>
           </div>
         )}
 
-        {/* RIGHT SIDE - Form/Welcome (hoán đổi theo mode) */}
+        {/* --- RIGHT SIDE --- */}
         {isLogin ? (
-          // Login: RIGHT = Form (fade-in after animation)
-          <div className={`w-full lg:w-1/2 flex items-center justify-center p-4 lg:p-8 ${
-            isAnimating ? 'auth-right-exit-left' : 'form-fade-in'
-          }`} key="login-right">
+          // LOGIN MODE: Form bên Phải
+          <div className={`w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-white ${isAnimating ? 'form-exit' : 'form-enter'}`}>
             <div className="w-full max-w-md">
-              <LoginForm onSwitchToRegister={handleSwitchToRegister} />
+               {/* Truyền callback để nút "Đăng ký ngay" trong form mobile hoạt động */}
+              <LoginForm onSwitchToRegister={() => switchMode('register')} />
             </div>
           </div>
         ) : (
-          // Register: RIGHT = Image with Text Overlay
-          <div className={`hidden lg:flex w-1/2 items-center justify-center p-8 ${
-            isAnimating ? 'auth-right-exit-left' : 'form-fade-in'
-          }`} key="register-right">
-            <div className="w-full h-full relative rounded-2xl overflow-hidden shadow-2xl">
-              {/* Background Image */}
-              <img 
-                src="/images/luachinh.png" 
-                alt="Rice Gold" 
-                className="w-full h-full object-cover"
-              />
-              
-              {/* Text Overlay */}
-              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-8">
-                <div className="text-center max-w-sm">
-                  <img 
-                    src="/images/logo.png" 
-                    alt="Logo" 
-                    className="w-32 h-32 mx-auto mb-4"
-                  />
-                  <h2 className="text-4xl font-bold text-white mb-4">
-                    Bắt đầu hành trình của bạn
-                  </h2>
-                  <p className="text-lg text-white/90 mb-8">
-                    Đăng ký tài khoản để khám phá những sản phẩm nông sân sạch chất lượng cao
-                  </p>
-                  <div className="pt-8 border-t border-white/30">
-                    <p className="text-white mb-3">Đã có tài khoản?</p>
-                    <button
-                      onClick={handleSwitchToLogin}
-                      className="w-full bg-white text-green-600 font-bold py-3 rounded-lg hover:bg-gray-200 hover:shadow-lg transition-all border-2 border-white"
-                    >
-                      Đăng nhập ngay
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          // REGISTER MODE: Banner bên Phải
+          <AuthBanner
+            position="right"
+            isAnimating={isAnimating}
+            image="/images/luachinh.png"
+            title="Bắt đầu hành trình"
+            description="Đăng ký tài khoản để khám phá những sản phẩm chất lượng cao."
+            promptText="Đã có tài khoản?"
+            buttonText="Đăng nhập ngay"
+            onSwitch={() => switchMode('login')}
+          />
         )}
+
       </div>
     </div>
   );
