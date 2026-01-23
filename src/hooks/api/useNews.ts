@@ -23,7 +23,7 @@ interface News {
     content: string;
     contentType: 'article' | 'video';
     featuredImage?: string;
-    videoUrl?: string;
+    videoFile?: string;
     videoThumbnail?: string;
     videoDuration?: number;
     categoryId: number;

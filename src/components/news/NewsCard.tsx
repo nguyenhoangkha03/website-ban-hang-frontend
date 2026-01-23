@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Calendar, Eye, Play, User } from 'lucide-react';
 
 interface NewsCardProps {
@@ -26,6 +27,8 @@ interface NewsCardProps {
 }
 
 export default function NewsCard({ news }: NewsCardProps) {
+    const router = useRouter();
+
     const thumbnail = news.contentType === 'video' && news.videoThumbnail
         ? news.videoThumbnail
         : news.featuredImage || '/images/placeholder.jpg';
@@ -45,6 +48,12 @@ export default function NewsCard({ news }: NewsCardProps) {
         const minutes = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${minutes}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    const handleCategoryClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        router.push(`/news/category/${news.category.slug}`);
     };
 
     return (
@@ -77,13 +86,12 @@ export default function NewsCard({ news }: NewsCardProps) {
 
                     {/* Category Badge */}
                     <div className="absolute top-2 left-2">
-                        <Link
-                            href={`/news/category/${news.category.slug}`}
-                            className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-700 transition-colors"
-                            onClick={(e) => e.stopPropagation()}
+                        <button
+                            onClick={handleCategoryClick}
+                            className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-700 transition-colors cursor-pointer"
                         >
                             {news.category.categoryName}
-                        </Link>
+                        </button>
                     </div>
                 </div>
 

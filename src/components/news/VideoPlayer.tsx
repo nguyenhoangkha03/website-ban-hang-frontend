@@ -1,42 +1,25 @@
 'use client';
 
 interface VideoPlayerProps {
-    videoUrl: string;
+    videoFile?: string;
     thumbnail?: string;
     title: string;
 }
 
-// Extract YouTube video ID from URL
-function extractYouTubeId(url: string): string | null {
-    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-}
+export default function VideoPlayer({ videoFile, thumbnail, title }: VideoPlayerProps) {
+    if (!videoFile) return null;
 
-export default function VideoPlayer({ videoUrl, thumbnail, title }: VideoPlayerProps) {
-    const youtubeId = extractYouTubeId(videoUrl);
+    // Static files are served from root /uploads/, not /api/uploads/
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+    const videoUrl = `${BASE_URL}/uploads/${videoFile}`;
+    const thumbnailUrl = thumbnail ? `${BASE_URL}/uploads/${thumbnail}` : undefined;
 
-    if (youtubeId) {
-        // YouTube embed
-        return (
-            <div className="aspect-video w-full bg-black rounded-lg overflow-hidden">
-                <iframe
-                    src={`https://www.youtube.com/embed/${youtubeId}`}
-                    title={title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full"
-                />
-            </div>
-        );
-    }
-
-    // HTML5 video player (for uploaded videos)
+    // HTML5 video player for uploaded videos
     return (
         <div className="aspect-video w-full bg-black rounded-lg overflow-hidden">
             <video
                 src={videoUrl}
-                poster={thumbnail}
+                poster={thumbnailUrl}
                 controls
                 preload="metadata"
                 className="w-full h-full"

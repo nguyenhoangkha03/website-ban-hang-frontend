@@ -136,9 +136,10 @@ export default function NewsDetailPage() {
 
                             {/* Media */}
                             <div className="px-8 mb-6">
-                                {news.contentType === 'video' && news.videoUrl ? (
+
+                                {news.contentType === 'video' && news.videoFile ? (
                                     <VideoPlayer
-                                        videoUrl={news.videoUrl}
+                                        videoFile={news.videoFile}
                                         thumbnail={news.videoThumbnail}
                                         title={news.title}
                                     />
