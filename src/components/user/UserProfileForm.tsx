@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/useAuthStore'; // ✅ 1. Import Store
 
 import { UpdateProfileSchema, UpdateProfileType } from '@/lib/validations/user.validation';
 import { useUserProfile, useUpdateProfile } from '@/hooks/api/useUser';
+import { toast } from 'react-hot-toast';
 
 export default function UserProfileForm() {
     // ✅ 2. Lấy dữ liệu user từ LocalStorage (Có ngay lập tức)
@@ -31,6 +32,7 @@ export default function UserProfileForm() {
         register,
         handleSubmit,
         reset,
+        setError,
         formState: { errors },
     } = useForm<UpdateProfileType>({
         resolver: zodResolver(UpdateProfileSchema),
@@ -68,20 +70,51 @@ export default function UserProfileForm() {
         }
     }, [userProfile, reset]);   
 
-    const onSubmit = (data: UpdateProfileType) => {
+const onSubmit = (data: UpdateProfileType) => {
         const submitData = { ...data };
-
-        // Logic cũ: Xóa phone/email nếu không được sửa
-        if (!canEditPhone) {
-            delete submitData.phone;
-        }
+        if (!canEditPhone) delete submitData.phone;
         delete submitData.email;
 
+        // Bắt đầu gọi API
+        // Mẹo: Dùng toast.promise để hiện Loading đẹp mắt luôn
+        const updatePromise = updateMutation.mutateAsync(submitData);
+
+        toast.promise(updatePromise, {
+            loading: 'Đang lưu thay đổi...',
+            success: (data) => {
+                setIsEditing(false); // Tắt chế độ sửa
+                return '✅ Cập nhật hồ sơ thành công!'; // Hiện thông báo xanh
+            },
+            error: (err) => {
+                // Logic xử lý lỗi hiển thị đỏ
+                const status = err?.response?.status;
+                if (status === 409) {
+                    return '❌ Số điện thoại đã tồn tại!';
+                }
+                return '❌ Cập nhật thất bại, vui lòng thử lại.';
+            }
+        });
+        
+        // ⚠️ Lưu ý: Vì dùng toast.promise ở trên xử lý hết rồi
+        // nên ta có thể bỏ logic trong onError/onSuccess của mutate cũ đi
+        // HOẶC giữ cách cũ nhưng thay alert bằng toast.success:
+        
+        /* CÁCH CŨ CỦA BẠN (SỬA NHANH):
         updateMutation.mutate(submitData, {
             onSuccess: () => {
                 setIsEditing(false);
+                toast.success("✅ Cập nhật thành công!"); // 👈 Thay alert bằng dòng này
+            },
+            onError: (error: any) => {
+                // ... logic check 409 cũ ...
+                if (status === 409) {
+                    setError(...)
+                } else {
+                    toast.error("❌ " + backendMsg); // 👈 Thay alert lỗi bằng dòng này
+                }
             }
         });
+        */
     };
 
     const handleCancel = () => {

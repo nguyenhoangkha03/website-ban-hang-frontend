@@ -10,7 +10,6 @@ export const userKeys = {
 // 1. Hook Lấy thông tin Profile
 export const useUserProfile = () => {
   const accessToken = useAuthStore((state) => state.accessToken);
-  console.log("🔥 useUserProfile was called with accessToken:", accessToken);
 
   return useQuery({
     queryKey: userKeys.profile,
@@ -18,7 +17,7 @@ export const useUserProfile = () => {
       // ✅ ROUTE CHUẨN: /cs/customers/profile
       const res = await api.get('/cs/customers/profile');
       // 🔥 DEBUG LOG: Xem cấu trúc API trả về là gì
-      console.log("🔥 API Profile Response:", res.data);
+      // console.log("🔥 API Profile Response:", res.data);
       return res.data.data as UserProfile;
     },
     enabled: !!accessToken, 
@@ -49,12 +48,8 @@ export const useUpdateProfile = () => {
          setUser(response.data); 
       }
 
-      alert('✅ Cập nhật hồ sơ thành công!');
+      // alert('✅ Cập nhật hồ sơ thành công!');
     },
-    onError: (err: any) => {
-      console.error(err);
-      const msg = err?.response?.data?.message || err.message || 'Có lỗi xảy ra';
-      alert('❌ ' + msg);
-    }
+    // 
   });
 };
