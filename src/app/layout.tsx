@@ -36,6 +36,9 @@ function ThemeInitializer() {
   return null;
 }
 
+
+
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 

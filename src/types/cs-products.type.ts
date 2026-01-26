@@ -33,6 +33,7 @@ export interface StoreProduct {
   sku: string;
   slug: string;
   image: string;
+  video: string;
   
   unit: string; // ✅ MỚI: Đơn vị tính (Chai, Gói, Bao...)
 
@@ -75,6 +76,7 @@ export interface StoreProductParams {
   page?: number;
   limit?: number;
   search?: string;
+  historySearch?: string[];
   categoryId?: number;
   productType?: string; 
   isFeatured?: boolean;

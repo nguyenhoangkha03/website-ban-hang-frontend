@@ -9,7 +9,7 @@ export const http = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// 1. REQUEST INTERCEPTOR: Gắn Access Token vào mọi request
+
 http.interceptors.request.use(
   (config) => {
     if (typeof window !== 'undefined') {
