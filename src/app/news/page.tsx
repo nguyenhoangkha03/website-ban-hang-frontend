@@ -11,14 +11,12 @@ export default function NewsPage() {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
-    const [contentType, setContentType] = useState<'article' | 'video' | undefined>();
 
     const { data, isLoading, error } = useNews({
         page,
         limit: 9,
         search: search || undefined,
         categoryId: selectedCategory,
-        contentType,
         sortBy: 'publishedAt',
         sortOrder: 'desc',
     });
@@ -73,49 +71,6 @@ export default function NewsPage() {
                                         className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none"
                                     />
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                                </div>
-                            </div>
-
-                            {/* Content Type Filter */}
-                            <div className="mb-6">
-                                <h3 className="font-bold text-gray-900 mb-3">Loại nội dung</h3>
-                                <div className="space-y-2">
-                                    <button
-                                        onClick={() => {
-                                            setContentType(undefined);
-                                            setPage(1);
-                                        }}
-                                        className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${contentType === undefined
-                                            ? 'bg-primary text-white'
-                                            : 'hover:bg-gray-100'
-                                            }`}
-                                    >
-                                        Tất cả
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setContentType('article');
-                                            setPage(1);
-                                        }}
-                                        className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${contentType === 'article'
-                                            ? 'bg-primary text-white'
-                                            : 'hover:bg-gray-100'
-                                            }`}
-                                    >
-                                        📰 Bài viết
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setContentType('video');
-                                            setPage(1);
-                                        }}
-                                        className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${contentType === 'video'
-                                            ? 'bg-primary text-white'
-                                            : 'hover:bg-gray-100'
-                                            }`}
-                                    >
-                                        🎥 Video
-                                    </button>
                                 </div>
                             </div>
 
