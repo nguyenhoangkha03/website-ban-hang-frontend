@@ -15,7 +15,7 @@ export const useProductFilter = () => {
     limit: Number(searchParams.get('limit')) || 12,
     search: searchParams.get('search') || undefined,
     categoryId: searchParams.get('categoryId') ? Number(searchParams.get('categoryId')) : undefined,
-    isFeatured: searchParams.get('isFeatured') === 'true' ? true : undefined,
+    // isFeatured: searchParams.get('isFeatured') === 'true' ? true : undefined,
     sortBy: (searchParams.get('sortBy') as any) || 'newest',
     
     // 👇 MỚI: Lấy quy cách đóng gói và khoảng giá
@@ -67,20 +67,6 @@ export const useProductFilter = () => {
     router.push(`${pathname}?${createQueryString('packagingType', type)}`);
   };
 
-  // 👇 MỚI: Hàm lọc theo khoảng giá (Cập nhật 2 tham số cùng lúc)
-  const setPriceRange = (min: number | null, max: number | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-    
-    if (min !== null) params.set('minPrice', String(min));
-    else params.delete('minPrice');
-
-    if (max !== null) params.set('maxPrice', String(max));
-    else params.delete('maxPrice');
-
-    params.set('page', '1'); // Reset về trang 1
-
-    router.push(`${pathname}?${params.toString()}`);
-  };
 
   return {
     filters,
@@ -88,7 +74,6 @@ export const useProductFilter = () => {
     setSort,
     setCategory,
     setSearch,
-    setPackaging,   // ✅ Xuất hàm mới
-    setPriceRange,  // ✅ Xuất hàm mới
+    setPackaging,  
   };
 };
