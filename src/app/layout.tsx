@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google"; 
 import "./globals.css";
 import QueryProvider from '@/providers/QueryProvider';
+import { Toaster } from "react-hot-toast";
 import SocialAuthListener from '@/components/auth/SocialAuthListener';
 
 // 👇 1. IMPORT HEADER VÀ FOOTER VÀO ĐÂY
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import MissingInfoBanner from "@/components/layout/MissingInfoBanner";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 const montserrat = Montserrat({ 
@@ -30,19 +32,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         
         <QueryProvider> 
           <SocialAuthListener />
-          
-          {/* 👇 2. ĐẶT HEADER Ở ĐÂY (Nó sẽ hiện trên mọi trang) */}
+        
           <Header />
+
+          <MissingInfoBanner />
 
           {/* Đây là nơi nội dung các trang (Home, About, Login...) được thay thế vào */}
           <main className="min-h-screen">
              {children}
           </main>
-          
-          {/* 👇 3. ĐẶT FOOTER Ở ĐÂY */}
+      
           <Footer />
           
         </QueryProvider>
+
+        <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ import Container from './Container';
 
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useThemeStore } from '@/stores/useThemeStore';
+import { useLogout } from '@/hooks/api/useAuthApi';
 
 const MENU_ITEMS = [
   { name: "Trang chủ", href: "/" },
@@ -21,11 +22,14 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname(); 
 
+  const logoutMutation = useLogout();
+
   const { user, isAuthenticated, logout } = useAuthStore();
   const { theme, toggleTheme } = useThemeStore();
   
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  
 
   // ✅ 1. Thêm biến isMounted để biết khi nào component đã chạy trên trình duyệt
   const [isMounted, setIsMounted] = useState(false);
@@ -44,17 +48,14 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    logout();
+const handleLogout = () => {
+    // Gọi Mutation để: Gọi API BE -> Xóa Cookie -> Xóa Supabase -> Xóa Store -> Redirect
+    logoutMutation.mutate();
     setShowDropdown(false);
-    router.push('/login');
-    router.refresh(); // Refresh lại trang để xóa sạch state cũ
   };
 
-  // ✅ 2. Sửa lại hàm renderUserSection
   const renderUserSection = () => {
     // Nếu chưa mount xong -> Render một cái khung (skeleton) hoặc nút login giả
-    // Điều này giúp tránh lỗi "Hydration failed" vì server render khác client
     if (!isMounted) {
        return <div className="w-24 h-9 bg-gray-100 dark:bg-gray-800 rounded-full animate-pulse"></div>;
     }

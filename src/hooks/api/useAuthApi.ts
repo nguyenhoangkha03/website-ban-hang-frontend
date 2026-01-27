@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/axios'; // Import 'api' có interceptor
 import { LoginFormType } from '@/lib/validations/auth.validation';
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -171,27 +171,43 @@ export const useSetPassword = () => {
 // 8. Hook Đăng xuất
 // =============================================================================
 export const useLogout = () => {
-    const router = useRouter();
+    // Không dùng router.push, dùng window.location để force reload
     const { logout } = useAuthStore();
+    const queryClient = useQueryClient();
   
     return useMutation({
       mutationFn: async () => {
-        // 1. Gọi Backend Logout (Xóa HttpOnly Cookie)
-        await api.post('/cs/accounts/logout');
+        // 1. Gọi Backend Logout (BẮT BUỘC LÀ POST)
+        // Dùng try-catch để dù API lỗi thì các bước sau vẫn chạy
+        try {
+            await api.post('/cs/accounts/logout');
+        } catch (error) {
+            console.error("API Logout Error (Ignored):", error);
+        }
         
-        // 2. ✅ QUAN TRỌNG: Logout cả Supabase để xóa session dính ở trình duyệt
-        await supabase.auth.signOut();
+        // 2. Logout Supabase (Quan trọng để không bị tự login lại)
+        try {
+            await supabase.auth.signOut();
+        } catch (error) {
+             console.error("Supabase SignOut Error (Ignored):", error);
+        }
       },
-      onSuccess: () => {
-        logout(); // Xóa RAM Store
-        router.push('/login');
-        router.refresh(); // Refresh để clear cache của Next.js
-      },
-      onError: async () => {
-         // Kể cả API lỗi, vẫn phải clear client state
-         await supabase.auth.signOut();
-         logout();
-         router.push('/login');
+      // Dùng onSettled: Chạy bất kể thành công hay thất bại
+      onSettled: () => {
+        console.log("🧹 Cleaning up client session...");
+        
+        // 3. Xóa Store Zustand
+        logout(); 
+
+        // 4. Xóa Cache React Query (để dữ liệu Profile cũ không hiện lại)
+        queryClient.clear();
+
+        // 5. Xóa thủ công LocalStorage cho chắc ăn 100%
+        localStorage.removeItem('auth-storage');
+        localStorage.removeItem('sb-vnvodtioquonmqghwusy-auth-token'); // Xóa token supabase (tùy chọn)
+
+        // 6. Chuyển trang cứng về Login
+        window.location.href = '/login';
       }
     });
 };
