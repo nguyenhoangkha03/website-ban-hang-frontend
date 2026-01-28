@@ -18,3 +18,14 @@ export function useProducts(filter: StoreProductParams) {
   })
 }
 
+export function useProductDetail(productSlug: string, enabled = true) {
+  return useQuery({
+    queryKey: ['cs-product', productSlug],
+    queryFn: async () => {
+      const response = await api.get<ProductDetailResponse>(`/cs/products/${productSlug}`);
+      return response.data;
+    },
+    enabled: enabled && !!productSlug,
+  })
+}
+

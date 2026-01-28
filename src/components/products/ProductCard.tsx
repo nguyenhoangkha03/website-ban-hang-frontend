@@ -28,7 +28,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 transition-all duration-300 hover:shadow-2xl hover:border-green-200 dark:hover:border-green-700 hover:-translate-y-1 animate-fade-in-up">
         <Link
-          href={`/products/${product.id}`}
+          href={`/products/${product.slug}`}
           className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800"
         >
           <Image
@@ -45,14 +45,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.discountPercentage > 0 && (
             <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-red-600 to-red-500 px-3 py-1.5 text-xs font-bold text-white shadow-lg z-10 animate-bounce-in">
               -{product.discountPercentage}%
-            </span>
-          )}
-
-          {/* Badge Nổi bật */}
-          {product.isFeatured && (
-            <span className="absolute right-3 top-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-300 px-3 py-1.5 text-xs font-bold text-yellow-900 shadow-lg z-10 flex items-center gap-1 animate-bounce-in">
-              <Sparkles size={12} />
-              HOT
             </span>
           )}
 
@@ -74,7 +66,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Tên sản phẩm */}
-          <Link href={`/products/${product.id}`}>
+          <Link href={`/products/${product.slug}`}>
             <h3
               className="line-clamp-2 text-sm md:text-base font-bold text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-green-400 min-h-[44px] mb-3 transition-colors leading-snug"
               title={product.name}
@@ -138,14 +130,21 @@ export default function ProductCard({ product }: ProductCardProps) {
             top: pos.y + 12,
           }}
         >
-          <video
+          {/* <video
             src={product.video} 
             autoPlay
             muted
             loop
             playsInline
             className="w-full h-40 object-cover rounded-lg"
+          /> */}
+          <iframe
+            src={`https://www.youtube.com/embed/${product.video.split("v=")[1]}?autoplay=1&mute=1&controls=0&modestbranding=1`}
+            className="w-full h-40 rounded-lg"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
           />
+
           <h4 className="font-bold text-sm mb-1">{product.name}</h4>
         </div>
       )}

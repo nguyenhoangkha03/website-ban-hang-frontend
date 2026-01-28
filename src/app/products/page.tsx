@@ -3,7 +3,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Loader2, SearchX, Package, Search, X } from 'lucide-react';
 import { useProducts } from '@/hooks/api/useCSProducts';
-import { useProductFilter } from '@/hooks/api/useProductFilter';
 import ProductCard from '@/components/products/ProductCard';
 import Container from '@/components/layout/Container';
 import { useCsCategories } from '@/hooks/api/useCsCategories';
@@ -29,7 +28,6 @@ export default function ProductsPage() {
   const products = data?.data || [];
   const meta = data?.meta
 
-  console.log("Quý con cóc", products)
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
