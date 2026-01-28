@@ -67,8 +67,7 @@ export interface StoreProductDetail extends StoreProduct {
   // ✅ MỚI: Danh sách tất cả khuyến mãi để khách chọn lại (nếu muốn)
   availablePromotions: PromotionInfo[];
 
-  // Gợi ý liên quan
-  relatedProducts?: StoreProduct[];
+  // relatedProducts?: StoreProduct[];
 }
 
 // 4. Tham số Query (Dùng khi gọi API danh sách)
