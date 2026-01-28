@@ -1,82 +1,81 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase/supabase';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { api } from '@/lib/axios'; 
 import { Loader2 } from 'lucide-react'; 
-
-// ❌ Đã xóa VerifyPhoneModal
+// Import Hook API
+import { useSyncSocialAccount } from '@/hooks/api/useAuthApi';
+import { toast } from 'sonner';
 
 export default function SocialAuthListener() {
-  const { isAuthenticated, login } = useAuthStore(); 
+  const { isAuthenticated } = useAuthStore(); 
   const processingSessionId = useRef<string | null>(null);
 
-  const syncMutation = useMutation({
-    mutationFn: async (payload: any) => {
-       const res = await api.post('/cs/accounts/social-login', payload);
-       return res.data; 
-    },
-    onSuccess: (res) => {
-      const { customer, accessToken } = res.data;
-
-      if (customer && accessToken) {
-        // 1. Lưu vào Store
-        login(customer, accessToken);
-        
-        // 2. ✅ Redirect thẳng về trang chủ
-        console.log("🚀 Đăng nhập thành công -> Về trang chủ");
-        window.location.href = '/'; 
-      }
-    },
-    onError: (error: any) => {
-        console.error("❌ Lỗi đồng bộ Social:", error);
-        supabase.auth.signOut();
-        processingSessionId.current = null;
-        const msg = error?.response?.data?.message || "Đăng nhập thất bại";
-        alert(`Lỗi: ${msg}`);
-    }
-  });
+  // Hook gọi API sync xuống Backend
+  const syncMutation = useSyncSocialAccount();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      
+      // Chỉ xử lý khi có session và hệ thống của mình chưa nhận diện đăng nhập
       if (event === 'SIGNED_IN' && session && !isAuthenticated) {
+        
+        // 1. Chặn xử lý lặp lại (Debounce)
         if (processingSessionId.current === session.access_token) return;
         processingSessionId.current = session.access_token;
 
         const user = session.user;
-        const provider = user.app_metadata.provider; 
+        // Dùng optional chaining (?.) để tránh crash nếu metadata null
+        const provider = user.app_metadata?.provider; 
 
+        // 2. Chỉ xử lý Google/Facebook (Zalo đi đường khác)
         if (provider === 'google' || provider === 'facebook') {
-            console.log(`🔄 Syncing ${provider}...`);
+            console.log(`🔄 Phát hiện login ${provider}, đang đồng bộ...`);
+            
             const payload = {
                 uid: user.id, 
                 email: user.email || '',
-                name: user.user_metadata.full_name || user.user_metadata.name || 'Khách hàng mới',
-                avatar: user.user_metadata.avatar_url || '',
+                // Ưu tiên full_name, fallback sang name, cuối cùng là chuỗi mặc định
+                name: user.user_metadata?.full_name || user.user_metadata?.name || 'Khách hàng',
+                avatar: user.user_metadata?.avatar_url || '',
                 provider: provider.toUpperCase() 
             };
+            
+            // Gọi API
             syncMutation.mutate(payload);
         }
       }
-      if (event === 'SIGNED_OUT') processingSessionId.current = null;
-    });
-    return () => subscription.unsubscribe();
-  }, [isAuthenticated]);
 
-  // Chỉ còn lại cái màn hình Loading thôi
+      // Reset ref khi đăng xuất để lần sau login lại được
+      if (event === 'SIGNED_OUT') {
+          processingSessionId.current = null;
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [isAuthenticated, syncMutation]);
+
+  // 3. Render Loading Overlay (Che toàn màn hình)
+  // Chỉ hiện khi đang gọi API Sync
+  if (!syncMutation.isPending) return null;
+
   return (
-      <>
-        {syncMutation.isPending && (
-            <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
-                <div className="flex flex-col items-center gap-4 animate-in fade-in zoom-in duration-300">
-                    <Loader2 className="h-12 w-12 text-[#009f4d] animate-spin" />
-                    <p className="text-gray-600 font-medium text-lg">Đang kết nối tài khoản...</p>
+    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm">
+        <div className="flex flex-col items-center gap-6 animate-in fade-in zoom-in duration-300">
+            {/* Logo hoặc Spinner */}
+            <div className="relative">
+                <div className="absolute inset-0 bg-green-100 rounded-full animate-ping opacity-25"></div>
+                <div className="relative bg-white p-4 rounded-full shadow-xl">
+                    <Loader2 className="h-10 w-10 text-[#009f4d] animate-spin" />
                 </div>
             </div>
-        )}
-      </>
+            
+            <div className="text-center space-y-2">
+                <h3 className="text-xl font-bold text-gray-800">Đang kết nối...</h3>
+                <p className="text-gray-500 font-medium">Vui lòng đợi trong giây lát</p>
+            </div>
+        </div>
+    </div>
   );
 }

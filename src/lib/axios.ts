@@ -1,8 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { useAuthStore } from '@/stores/useAuthStore';
 
-// URL API Backend (Đã bao gồm /api)
-// Ví dụ: http://localhost:5000/api
+// URL API Backend
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 // Tạo instance 'api' dùng chung cho toàn app
@@ -10,15 +9,14 @@ export const api = axios.create({
   baseURL,
   timeout: 30000,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true, // ✅ BẮT BUỘC: Để gửi/nhận Cookie HttpOnly (RefreshToken)
+  withCredentials: true, // ✅ BẮT BUỘC: Để gửi/nhận Cookie HttpOnly
 });
 
 // -----------------------------------------------------------------------------
-// 1. REQUEST INTERCEPTOR: Gắn Access Token từ MEMORY (Zustand)
+// 1. REQUEST INTERCEPTOR: Gắn Access Token từ MEMORY
 // -----------------------------------------------------------------------------
 api.interceptors.request.use(
   (config) => {
-    // ✅ Lấy AccessToken từ RAM (Zustand Store) - Không dùng LocalStorage nữa
     const token = useAuthStore.getState().accessToken;
 
     if (token && config.headers) {
@@ -30,7 +28,7 @@ api.interceptors.request.use(
 );
 
 // -----------------------------------------------------------------------------
-// LOGIC HÀNG ĐỢI (QUEUE) KHI REFRESH TOKEN
+// LOGIC HÀNG ĐỢI (QUEUE)
 // -----------------------------------------------------------------------------
 let isRefreshing = false;
 let failedQueue: any[] = [];
@@ -47,27 +45,27 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 
 // -----------------------------------------------------------------------------
-// 2. RESPONSE INTERCEPTOR: Xử lý lỗi 401 & Silent Refresh (Dùng Cookie)
+// 2. RESPONSE INTERCEPTOR
 // -----------------------------------------------------------------------------
 api.interceptors.response.use(
-  (response) => response, // Trả về nguyên response nếu thành công
+  (response) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-    // ⚠️ QUAN TRỌNG: Bỏ qua các URL Auth để tránh vòng lặp vô tận
-    // Cập nhật đúng đường dẫn Backend mới: /cs/accounts/...
+    // ⚠️ QUAN TRỌNG: CẬP NHẬT ĐƯỜNG DẪN MỚI
+    // Tránh vòng lặp vô tận với các API Auth mới
     if (
-      originalRequest.url?.includes('/cs/accounts/login') ||
-      originalRequest.url?.includes('/cs/accounts/refresh-token') ||
-      originalRequest.url?.includes('/cs/accounts/social-login') // Thêm cái này để tránh retry khi login lỗi
+      originalRequest.url?.includes('/cs/auth/login-zalo') ||     // ✅ Sửa
+      originalRequest.url?.includes('/cs/auth/social-login') ||   // ✅ Sửa
+      originalRequest.url?.includes('/cs/auth/refresh-token') ||  // ✅ Sửa
+      originalRequest.url?.includes('/cs/auth/logout')            // ✅ Thêm
     ) {
       return Promise.reject(error);
     }
 
-    // Nếu lỗi 401 (Hết hạn Token) và chưa thử lại lần nào
+    // Nếu lỗi 401 (Hết hạn Token)
     if (error.response?.status === 401 && !originalRequest._retry) {
       
-      // Nếu đang có request khác refresh, xếp hàng đợi
       if (isRefreshing) {
         return new Promise(function (resolve, reject) {
           failedQueue.push({ resolve, reject });
@@ -85,46 +83,39 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // ✅ Gọi API Refresh Token trực tiếp bằng axios gốc (để không dính interceptor của 'api')
-        // Cookie 'c_refresh_token' sẽ tự động được gửi đi nhờ withCredentials: true
-        // URL Backend: /api/cs/accounts/refresh-token
+        // ✅ CẬP NHẬT API REFRESH TOKEN MỚI
+        // URL: /api/cs/auth/refresh-token
         const response = await axios.post(
-          `${baseURL}/cs/accounts/refresh-token`,
-          {}, // Body rỗng (vì token nằm trong cookie)
-          { withCredentials: true }
+          `${baseURL}/cs/auth/refresh-token`,
+          {}, 
+          { withCredentials: true } // Gửi kèm cookie 'c_refresh_token'
         );
 
-        // Backend trả về: { success: true, data: { accessToken: "..." } }
         const newAccessToken = response.data?.data?.accessToken;
 
         if (!newAccessToken) {
           throw new Error("Refresh failed: No access token returned");
         }
 
-        // ✅ Lưu token mới vào Memory (Zustand) -> Update UI ngay lập tức
+        // Cập nhật Store
         useAuthStore.getState().setAccessToken(newAccessToken);
 
-        // Gắn token mới vào request cũ và gọi lại
+        // Gắn token mới và gọi lại request cũ
         if (originalRequest.headers) {
             originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
         }
         
-        // Xử lý hàng đợi các request bị kẹt
         processQueue(null, newAccessToken);
         
-        // Gọi lại request ban đầu
         return api(originalRequest);
 
       } catch (refreshError) {
-        // Nếu refresh thất bại (Cookie hết hạn hoặc Redis xóa session) -> Logout thật
+        // Refresh thất bại -> Logout
         processQueue(refreshError, null);
         
-        // ✅ Xóa State trong RAM
         useAuthStore.getState().logout();
         
-        // Redirect về login (nếu đang không ở trang login)
         if (typeof window !== "undefined" && !window.location.pathname.includes("/login")) {
-           // Dùng window.location để reload sạch sẽ
            window.location.href = '/login'; 
         }
         
