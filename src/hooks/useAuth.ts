@@ -52,9 +52,7 @@ export function useAuth() {
   }, [socialLoginMutation]);
 
   // Hàm Update Profile
-  const updateProfile = useCallback((data: { customerName?: string; phone: string; cccd: string }) => {
-    updateProfileMutation.mutate(data);
-  }, [updateProfileMutation]);
+  const updateProfileAsync = updateProfileMutation.mutateAsync;
 
   // =========================================================================
   // HELPERS / GUARDS (Check quyền)
@@ -106,7 +104,7 @@ export function useAuth() {
     loginZalo,
     loginSocial,
     logout,
-    updateProfile,
+    updateProfileAsync,
     
     // --- LOADING STATES (Rất quan trọng để disable nút bấm/hiện spinner) ---
     isLoading: loginZaloMutation.isPending || logoutMutation.isPending || updateProfileMutation.isPending || socialLoginMutation.isPending,

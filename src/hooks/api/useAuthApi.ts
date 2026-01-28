@@ -101,7 +101,7 @@ export const useUpdateProfile = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (data: { customerName?: string; phone: string; cccd: string; address?: string }) => {
+        mutationFn: async (data: { customerName?: string; phone: string; cccd: string; address?: string; email?: any }) => {
             // ✅ Gọi API: PUT /cs/customers/profile
             const res = await api.put('/cs/customers/profile', data);
             return res.data;
