@@ -1,23 +1,27 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-// 1. Định nghĩa Interface User
-// Chỉ chứa những thông tin cần thiết để hiển thị trên UI (Header, Profile sơ lược)
+// 1. Định nghĩa Interface User (Cập nhật theo logic mới)
 interface User {
   id: number;
   customerName: string;
-  phone: string;
-  avatarUrl?: string | null; // Cho phép null
+  customerCode: string; // Nên lưu thêm mã KH để hiển thị
+  
+  phone: string | null; 
+  cccd?: string | null;
+  
+  avatarUrl?: string | null;
   email?: string | null;
-  // Các trường khác nếu Backend trả về (nhưng ta sẽ lọc khi lưu)
+  
+  // Các trường khác...
   [key: string]: any; 
 }
 
 interface AuthState {
   // --- STATE ---
   user: User | null;
-  accessToken: string | null; // 🔒 RAM ONLY: Chìa khóa vào nhà
-  isAuthenticated: boolean;   // Trạng thái đăng nhập (dựa trên RAM)
+  accessToken: string | null; // 🔒 RAM ONLY
+  isAuthenticated: boolean;   // RAM ONLY
 
   // --- ACTIONS ---
   login: (user: User, accessToken: string) => void;
@@ -34,7 +38,7 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       isAuthenticated: false,
 
-      // 1. LOGIN: Lưu cả User và Token vào RAM
+      // 1. LOGIN
       login: (user, accessToken) => {
         set({ 
           user, 
@@ -43,7 +47,7 @@ export const useAuthStore = create<AuthState>()(
         });
       },
 
-      // 2. REFRESH: Chỉ cập nhật Token (giữ nguyên User cũ hoặc User đang có)
+      // 2. REFRESH TOKEN
       setAccessToken: (accessToken) => {
         set({ 
           accessToken, 
@@ -51,42 +55,46 @@ export const useAuthStore = create<AuthState>()(
         });
       },
 
-      // 3. LOGOUT: Xóa sạch mọi thứ
+      // 3. LOGOUT
       logout: () => {
         set({ 
           user: null, 
           accessToken: null, 
           isAuthenticated: false 
         });
-        // (Tùy chọn) Xóa triệt để key trong localStorage để an tâm
+        // Xóa key trong localStorage
         localStorage.removeItem('auth-storage');
       },
 
-      // 4. UPDATE PROFILE: Cập nhật thông tin User (Avatar, Tên...) mà không cần login lại
+      // 4. UPDATE PROFILE
       setUser: (user) => {
         set({ user });
       },
     }),
     {
-      name: 'auth-storage', // Tên key trong LocalStorage
+      name: 'auth-storage', // Key trong LocalStorage
       storage: createJSONStorage(() => localStorage),
 
-      // 🛡️ BẢO MẬT CẤP CAO: CHỈ LƯU NHỮNG GÌ AN TOÀN
+      // 🛡️ BẢO MẬT: CHỈ LƯU USER INFO, KHÔNG LƯU TOKEN
       partialize: (state) => {
-        // Nếu chưa đăng nhập (user null) -> Không lưu gì cả
+        // Nếu chưa đăng nhập -> Không lưu gì
         if (!state.user) {
-            return { user: null };
+            return { user: null } as any; // Trick typescript nếu cần
         }
 
-        // ✅ WHITELIST: Chỉ lưu các trường định danh cơ bản.
+        // ✅ WHITELIST: Chỉ lưu các trường thông tin cơ bản
         return {
           user: {
             id: state.user.id,
+            customerCode: state.user.customerCode,
             customerName: state.user.customerName,
-            phone: state.user.phone, // Cần thiết để hiển thị
+            
+            phone: state.user.phone, // Lưu lại (có thể null)
+            cccd: state.user.cccd,   // ✅ Lưu thêm CCCD
+            
             email: state.user.email,
             avatarUrl: state.user.avatarUrl,
-            // ❌ KHÔNG LƯU: accessToken, isAuthenticated, debt, role, v.v.
+            // ❌ KHÔNG LƯU accessToken ở đây
           }
         };
       },

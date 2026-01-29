@@ -1,62 +1,63 @@
 import { z } from 'zod';
 
-// Regex chuẩn cho số điện thoại Việt Nam:
-// - Bắt đầu bằng 0 hoặc +84
-// - Tiếp theo là các đầu số nhà mạng: 3, 5, 7, 8, 9
-// - Theo sau là 8 chữ số
+// Regex chuẩn cho số điện thoại Việt Nam (Giữ nguyên của bạn)
 const phoneRegex = /^(0|\+84)(3|5|7|8|9)[0-9]{8}$/;
 
-// 1. Schema Đăng nhập
-export const LoginSchema = z.object({
-  phone: z
-    .string()
+// Regex cho Căn cước công dân (12 chữ số)
+const cccdRegex = /^[0-9]{12}$/;
+
+// ========================================================
+// 1. Schema Cập nhật hồ sơ (Quan trọng nhất)
+// Dùng cho trang /profile khi người dùng nhập SĐT và CCCD
+// ========================================================
+export const UpdateProfileSchema = z.object({
+  customerName: z.string().min(2, 'Tên phải có ít nhất 2 ký tự').optional(),
+  
+  phone: z.string()
     .min(1, 'Vui lòng nhập số điện thoại')
-    .regex(phoneRegex, 'Số điện thoại không hợp lệ (VD: 0912345678)'),
-  password: z
-    .string()
-    .min(1, 'Vui lòng nhập mật khẩu') // Login thì không cần lộ hint min 6 ký tự để bảo mật, chỉ cần check not empty
+    .regex(phoneRegex, 'Số điện thoại không hợp lệ'),
+
+  cccd: z.string()
+    .min(1, 'Vui lòng nhập CCCD')
+    .regex(cccdRegex, 'CCCD phải bao gồm đúng 12 chữ số'),
+
+  // ✅ THÊM CÁC TRƯỜNG CÒN THIẾU VÀO ĐÂY:
+  
+  // Email: Cho phép rỗng hoặc phải đúng định dạng email
+  email: z.string()
+    .email('Email không hợp lệ')
+    .optional()
+    .or(z.literal('')), 
+
+  address: z.string().optional(),
+  
+  // Hai trường này lúc nãy thiếu nên bị báo lỗi
+  province: z.string().optional(),
+  district: z.string().optional(),
+
+  gender: z.enum(['male', 'female', 'other']).optional(),
 });
 
-// 2. Schema Đăng ký - Bước 1 (Nhập thông tin)
-export const RegisterSchema = z.object({
+// ========================================================
+// 2. Schema Login Zalo (Dùng để validate query param nếu cần)
+// ========================================================
+export const LoginZaloSchema = z.object({
+  code: z.string().min(1, "Mã xác thực Zalo không hợp lệ"),
+});
+
+// ========================================================
+// 3. Schema Kiểm tra SĐT (Nếu bạn dùng form kiểm tra riêng)
+// ========================================================
+export const CheckPhoneSchema = z.object({
   phone: z
     .string()
     .min(1, 'Vui lòng nhập số điện thoại')
     .regex(phoneRegex, 'Số điện thoại không hợp lệ'),
-  password: z
-    .string()
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
-  confirmPassword: z
-    .string()
-    .min(1, 'Vui lòng xác nhận mật khẩu'),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Mật khẩu xác nhận không khớp",
-  path: ["confirmPassword"], // Lỗi sẽ hiện ở ô confirmPassword
 });
 
-// 3. Schema Quên mật khẩu - Bước 1 (Nhập SĐT)
-export const ForgotPasswordPhoneSchema = z.object({
-  phone: z
-    .string()
-    .min(1, 'Vui lòng nhập số điện thoại')
-    .regex(phoneRegex, 'Số điện thoại không hợp lệ'),
-});
-
-// 4. Schema Đặt lại mật khẩu mới (Dùng cho cả Forgot Password & Change Password)
-export const NewPasswordSchema = z.object({
-  password: z
-    .string()
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
-  confirmPassword: z
-    .string()
-    .min(1, 'Vui lòng xác nhận mật khẩu'),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Mật khẩu xác nhận không khớp",
-  path: ["confirmPassword"],
-});
-
-// Type inference (Tự động tạo type TypeScript từ schema Zod)
-export type LoginFormType = z.infer<typeof LoginSchema>;
-export type RegisterFormType = z.infer<typeof RegisterSchema>;
-export type ForgotPasswordPhoneType = z.infer<typeof ForgotPasswordPhoneSchema>;
-export type NewPasswordType = z.infer<typeof NewPasswordSchema>;
+// ========================================================
+// Type inference (Tự động tạo type TypeScript)
+// ========================================================
+export type UpdateProfileFormType = z.infer<typeof UpdateProfileSchema>;
+export type LoginZaloFormType = z.infer<typeof LoginZaloSchema>;
+export type CheckPhoneFormType = z.infer<typeof CheckPhoneSchema>;

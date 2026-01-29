@@ -9,6 +9,7 @@ import SocialAuthListener from '@/components/auth/SocialAuthListener';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import MissingInfoBanner from "@/components/layout/MissingInfoBanner";
+import AuthProvider from "@/providers/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 const montserrat = Montserrat({ 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="vi">
       <body className={`${inter.variable} ${montserrat.variable} font-sans bg-gray-50 text-gray-900`}>
         
+          <AuthProvider>
         <QueryProvider> 
           <SocialAuthListener />
         
@@ -47,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </QueryProvider>
 
         <Toaster position="top-center" reverseOrder={false} />
+        </AuthProvider>
       </body>
     </html>
   );
