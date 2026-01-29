@@ -33,6 +33,7 @@ export interface StoreProduct {
   sku: string;
   slug: string;
   image: string;
+  video: string;
   
   unit: string; // ✅ MỚI: Đơn vị tính (Chai, Gói, Bao...)
 
@@ -66,8 +67,7 @@ export interface StoreProductDetail extends StoreProduct {
   // ✅ MỚI: Danh sách tất cả khuyến mãi để khách chọn lại (nếu muốn)
   availablePromotions: PromotionInfo[];
 
-  // Gợi ý liên quan
-  relatedProducts?: StoreProduct[];
+  // relatedProducts?: StoreProduct[];
 }
 
 // 4. Tham số Query (Dùng khi gọi API danh sách)
@@ -75,6 +75,7 @@ export interface StoreProductParams {
   page?: number;
   limit?: number;
   search?: string;
+  historySearch?: string[];
   categoryId?: number;
   productType?: string; 
   isFeatured?: boolean;
