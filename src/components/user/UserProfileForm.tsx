@@ -10,6 +10,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { UpdateProfileSchema, UpdateProfileFormType } from '@/lib/validations/auth.validation';
+import { toast } from 'sonner'; // Hoặc thư viện toast bạn đang dùng
 
 export default function UserProfileForm() {
     const router = useRouter();
@@ -30,6 +31,7 @@ export default function UserProfileForm() {
         handleSubmit,
         reset,
         watch,
+        setError, // Thêm setError để hiển thị lỗi field cụ thể nếu cần
         formState: { errors },
     } = useForm<UpdateProfileFormType>({
         resolver: zodResolver(UpdateProfileSchema),
@@ -82,16 +84,33 @@ export default function UserProfileForm() {
             ...data,
             phone: data.phone!,
             cccd: data.cccd!,
+            // Chỉ gửi email nếu được phép sửa
             email: canEditEmail ? data.email : user?.email 
         });
 
         // ✅ Chỉ chạy xuống đây nếu thành công (Backend trả về 200 OK)
         setIsEditing(false); // Lúc này mới đóng Form
+        toast.success('Cập nhật hồ sơ thành công!');
         
-    } catch (error) {
+    } catch (error: any) {
         // ❌ Nếu Backend báo lỗi (409 Trùng SĐT...), code sẽ nhảy vào đây
         // Form vẫn mở (isEditing = true) để người dùng sửa lại
-        console.log("Lỗi cập nhật:", error);
+        console.error("Lỗi cập nhật:", error);
+
+        // Hiển thị thông báo lỗi từ backend
+        // Giả sử backend trả về lỗi dạng { message: "..." } hoặc { error: "..." }
+        const errorMessage = error?.response?.data?.message || error?.message || "Có lỗi xảy ra khi cập nhật";
+        toast.error(errorMessage);
+
+        // Nếu lỗi liên quan đến field cụ thể (ví dụ backend trả về field nào lỗi), 
+        // bạn có thể dùng setError để highlight field đó.
+        // Ví dụ đơn giản:
+        if (errorMessage.toLowerCase().includes('số điện thoại')) {
+             setError('phone', { type: 'manual', message: errorMessage });
+        }
+        if (errorMessage.toLowerCase().includes('cccd')) {
+             setError('cccd', { type: 'manual', message: errorMessage });
+        }
     }
 };
 
