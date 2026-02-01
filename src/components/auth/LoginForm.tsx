@@ -1,13 +1,13 @@
 'use client';
 
+import Image from 'next/image'; // ✅ Import Image
 import { useAuth } from '@/hooks/useAuth';
-import { GoogleLogo, FacebookLogo } from '@/icons/SocialIcons';
+import { GoogleLogo, FacebookLogo } from '@/icons/SocialIcons'; // Kiểm tra lại đường dẫn import này cho đúng project của bạn
 
 export default function LoginForm() {
-  const { loginZalo, loginSocial, isLoading } = useAuth(); // Dùng hook Facade mới
+  const { loginSocial, isLoading } = useAuth();
 
   const handleZaloLogin = () => {
-    // Logic redirect sang Zalo (như đã bàn ở các bước trước)
     const ZALO_APP_ID = process.env.NEXT_PUBLIC_ZALO_APP_ID;
     const CALLBACK_URL = process.env.NEXT_PUBLIC_ZALO_CALLBACK_URL;
     const STATE = "auth_zalo_state";
@@ -25,7 +25,20 @@ export default function LoginForm() {
     <div className="w-full max-w-md p-8 animate-in fade-in zoom-in duration-500 delay-100 flex flex-col justify-center min-h-[400px]">
 
       {/* Header */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-8">
+        {/* ✅ THAY ĐỔI: Thêm Logo Công Ty */}
+        <div className="flex justify-center mb-6">
+            {/* Bạn nhớ thay đường dẫn '/images/logo.png' bằng logo thật của bạn nhé */}
+            <div className="relative w-24 h-24"> 
+                 <Image 
+                    src="/images/logo.png" 
+                    alt="Nam Viet Logo" 
+                    fill 
+                    className="object-contain"
+                 />
+            </div>
+        </div>
+
         <h2 className="text-3xl font-extrabold text-gray-900">Chào mừng trở lại!</h2>
         <p className="text-gray-500 text-sm mt-3">
             Đăng nhập nhanh chóng để quản lý đơn hàng & công nợ
@@ -35,13 +48,12 @@ export default function LoginForm() {
       {/* Social Buttons */}
       <div className="space-y-4">
         
-        {/* 1. ZALO (Nổi bật nhất - Primary Action) */}
+        {/* 1. ZALO */}
         <button
           onClick={handleZaloLogin}
           disabled={isLoading}
           className="w-full h-14 bg-[#0068FF] hover:bg-[#0054cc] text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-70"
         >
-          {/* Icon Zalo (Dùng ảnh hoặc SVG) */}
           <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#0068FF] font-black text-xs">Z</div>
           <span className="text-lg">Đăng nhập bằng Zalo</span>
         </button>
@@ -55,9 +67,8 @@ export default function LoginForm() {
           </div>
         </div>
 
-        {/* 2. GOOGLE & FACEBOOK (Secondary Actions) */}
+        {/* 2. GOOGLE & FACEBOOK */}
         <div className="grid grid-cols-2 gap-4">
-          {/* ✅ Nút Google: Dùng Component GoogleLogo */}
           <button
             onClick={() => loginSocial('google')}
             disabled={isLoading}
@@ -67,7 +78,6 @@ export default function LoginForm() {
             <span>Google</span>
           </button>
 
-          {/* ✅ Nút Facebook: Dùng Component FacebookLogo */}
           <button
             onClick={() => loginSocial('facebook')}
             disabled={isLoading}
