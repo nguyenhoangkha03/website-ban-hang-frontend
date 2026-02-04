@@ -1,6 +1,7 @@
 // src/app/(auth)/login/page.tsx
 import { Metadata } from 'next';
 import AuthLayout from '@/components/auth/AuthLayout';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Đăng nhập | Nông Sản Nam Việt',
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  return <AuthLayout />;
+
+  // Ẩn chức năng đăng nhập
+  // return <AuthLayout />;
+
+  redirect('/');  
 }
